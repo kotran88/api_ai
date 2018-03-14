@@ -502,10 +502,10 @@ for(name in global.hash){
       
                     if(newkeyword[i].length>0){
                         console.log("일치한다??????"+newkeyword[i]+"///"+global.titleList[j])
-                        
+                        console.log(name);
                         var message = { 
                             //2192c71b-49b9-4fe1-bee8-25617d89b4e8
-                            app_id: "2192c71b-49b9-4fe1-bee8-25617d89b4e8",
+                            app_id: "3ccd720d-dd44-41dd-9a72-3224fe45d756",
                             contents: {"en": "클릭하면, 상세내용으로 이동합니다."},
                             headings : {"en":global.titleList[j]},
                             // subtitle : {"en":"this is subtitle"},
