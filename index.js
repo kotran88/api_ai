@@ -786,8 +786,8 @@ console.log("sw result"+ sw);
 
           
           receivingPs(tokenId);
-        //   receivingXb(tokenId);
-        //   receivingSw(tokenId);
+          receivingXb(tokenId);
+          receivingSw(tokenId);
 
 
 
@@ -818,7 +818,7 @@ app.get('/',function(req,res){
     intervalFunc();
 
     //10분 마다 조회한다. 
-    setInterval(intervalFunc, 1000*60*1);
+    setInterval(intervalFunc, 1000*60*15);
 
     
     // var config = url.parse(mqtt_url);
