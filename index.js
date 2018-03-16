@@ -223,7 +223,7 @@ function receivingSw(tokenId){
                                     };
                 
                                     console.log(name+"PPPPPPPPPPPPPPPPPPPPPPPPringfting");
-                                    sendNotification(message);
+                                   
                 
                                     let today = new Date();
                                     let dd;
@@ -242,23 +242,34 @@ function receivingSw(tokenId){
                                     var hour = d.getHours();
                                     var n = d.getMinutes();
                                     var s = d.getSeconds();
-                               
-                                               let  postData = {
-                                                   title:global.titleListSw[j],
-                                                   time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
-                                                   nickname : global.nicknameSw[j],
-                                                   link : global.linkUrlSw[j],
-                                                   flag : "sw",
-                                                   postNm:global.postNmsw[j]
-                                                };
-                                                firebase.database().ref(`profile/`+id+"/list").push(postData, error => {
-                                                    if (error) {
-                                                        console.log("eeeeeeeeeeeeeeeeee"+error)
-                                                      // Log error to external service, e.g. Sentry
-                                                    } else {
-                                                        console.log("successsssssss")
-                                                    }
-                                                  });
+                                    console.log("name to filtering"+global.nicknameXb[j]);
+                                    global.noNm[name].forEach(function(element) {
+                                      console.log("name routinesssssssssssssssssssssssssssssss"+element);
+                                      if(element==global.nicknameSw[j]){
+                                                console.log(global.nicknameSw[j]+"금지 일치므로 발소안함")
+                                                                  flaging=true;
+                                              }
+                                  }, this);
+                                  if(!flaging){
+                                    sendNotification(message);
+                                    let  postData = {
+                                        title:global.titleListSw[j],
+                                        time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
+                                        nickname : global.nicknameSw[j],
+                                        link : global.linkUrlSw[j],
+                                        flag : "sw",
+                                        postNm:global.postNmsw[j]
+                                     };
+                                     firebase.database().ref(`profile/`+id+"/list").push(postData, error => {
+                                         if (error) {
+                                             console.log("eeeeeeeeeeeeeeeeee"+error)
+                                           // Log error to external service, e.g. Sentry
+                                         } else {
+                                             console.log("successsssssss")
+                                         }
+                                       });
+                                  }
+                                               
                                   }
                              
                              }
@@ -338,7 +349,7 @@ for(name in global.hash){
     console.log(psflag);
     console.log(xbflag);
     console.log(swflag);
-    console.log("xb flagiing input")
+    console.log("xb flagiing input"+xbflag)
     
     if(xbflag=="clicked"){
         for(var i=0; i<newkeyword.length; i++ ){
@@ -349,25 +360,26 @@ for(name in global.hash){
 
                     console.log("xb 일치한다"+global.titleListXb[j])
                     var flaging=false;
-                    global.noNm.forEach(function(element) {
-                        console.log("XB routinesssssssssssssssssssssssssssssss"+element);
-                        if(element==global.postNmxb[j]){
-                            console.log("XB 금지므로 발소안함")
-                                              flaging=true;
-                          }
-                    }, this);
+                    console.log(global.noNm);
+                    
                     //   for(var i=0; i<newkeyword.length; i++ ){
                       if(global.noNm.length>0){
                           console.log("XB "+global.noNm[0]);
                           
-                         
+                          global.noNm.forEach(function(element) {
+                            console.log("XB routinesssssssssssssssssssssssssssssss"+element);
+                            if(element==global.postNmxb[j]){
+                                console.log("XB 금지므로 발소안함")
+                                                  flaging=true;
+                              }
+                        }, this);
                       }
                      
                       console.log("xb 일치한다"+flaging)
                       if(!flaging){
                         var message = { 
                                   //2192c71b-49b9-4fe1-bee8-25617d89b4e8
-                                  app_id: "2192c71b-49b9-4fe1-bee8-25617d89b4e8",
+                                  app_id: "3ccd720d-dd44-41dd-9a72-3224fe45d756",
                                   contents: {"en": "클릭하면, 상세내용으로 이동합니다."},
                                   headings : {"en":global.titleListXb[j]},
                                   // subtitle : {"en":"this is subtitle"},
@@ -376,12 +388,13 @@ for(name in global.hash){
                               };
             
                               console.log(tokenId+"PPPPPPPPPPPPPPPPPPPPPPPPringfting");
-                              sendNotification(message);
+                             
             
                               let today = new Date();
                               let dd;
                               let day;
                               let month;
+                              
                                dd = today.getDate();
                               var mm = today.getMonth()+1; //January is 0!
                               var yyyy = today.getFullYear();
@@ -395,23 +408,37 @@ for(name in global.hash){
                               var hour = d.getHours();
                               var n = d.getMinutes();
                               var s = d.getSeconds();
-                         
-                                         let  postData = {
-                                             title:global.titleListXb[j],
-                                             time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
-                                             nickname : global.nicknameXb[j],
-                                             link : global.linkUrlXb[j],
-                                             flag : "xb",
-                                             postNm:global.postNmxb[j]
-                                          };
-                                          firebase.database().ref(`profile/`+id+"/list").push(postData, error => {
-                                              if (error) {
-                                                  console.log("eeeeeeeeeeeeeeeeee"+error)
-                                                // Log error to external service, e.g. Sentry
-                                              } else {
-                                                  console.log("successsssssss")
-                                              }
-                                            });
+                              console.log("이번 포트느는 네임 : "+global.noNm[name]);
+                              console.log("name to filtering"+global.nicknameXb[j]);
+                              global.noNm[name].forEach(function(element) {
+                                console.log("name routinesssssssssssssssssssssssssssssss"+element);
+                                if(element==global.nicknameXb[j]){
+                                          console.log(global.nickname[j]+"금지 일치므로 발소안함")
+                                                            flaging=true;
+                                        }
+                            }, this);
+
+                            console.log("xb sending flag :"+flaging);
+                            if(!flaging){
+                                sendNotification(message);
+                                let  postData = {
+                                    title:global.titleListXb[j],
+                                    time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
+                                    nickname : global.nicknameXb[j],
+                                    link : global.linkUrlXb[j],
+                                    flag : "xb",
+                                    postNm:global.postNmxb[j]
+                                 };
+                                 firebase.database().ref(`profile/`+id+"/list").push(postData, error => {
+                                     if (error) {
+                                         console.log("eeeeeeeeeeeeeeeeee"+error)
+                                       // Log error to external service, e.g. Sentry
+                                     } else {
+                                         console.log("successsssssss")
+                                     }
+                                   });
+                            }
+                                         
 
                       }
                 //  
@@ -533,20 +560,8 @@ for(name in global.hash){
                                                       flaging=true;
                                   }
                       }, this);
-                    //   global.noTitle[name].forEach(function(element) {
-                    //     console.log("title routinesssssssssssssssssssssssssssssss"+element);
-                    //     console.log(global.titleList[j])
-                    //     if(element==global.titleList[j]){
-                    //         console.log(global.titleList[j]+"금지 일치므로 발소안함")
-                    //                           flaging=true;
-                    //       }
-                    // }, this);
-                      //   for(var i=0; i<newkeyword.length; i++ ){
-                        if(global.noNm.length>0){
-                            console.log("gogogo"+global.noNm[0]);
-                            
-                           
-                        }
+                  
+                        
                        
                         console.log("1111일치한다"+flaging)
                         if(!flaging){
@@ -676,6 +691,7 @@ function intervalFunc() {
                    
                     console.log("xbbbb "+childs.val());
                     xb=childs.val();
+                    
                     // global.hash[tokenId] = global.stringList+"&"+id+"&"+ps+"&"+xb+"&"+sw
                 }
                 if(childs.key=="sw"){
@@ -738,16 +754,17 @@ function intervalFunc() {
                 if(childs.key=="tokenId"){
                     
 
-                    console.log("tokenstarttttttttttttt");
-                    tokenId=childs.val();
                    
+                    tokenId=childs.val();
+                    console.log("tokenstarttttttttttttt"+tokenId);
                     console.log(global.hash);
                     console.log(global.noNm);
                     console.log(global.noTitle);
                   
                     
                     console.log("flag is des : "+flag);
-                    global.hash[tokenId] = global.stringList+"&"+id+"&"+ps+"&"+xb+"&"+sw
+                    global.hash[tokenId] = global.stringList
+                    //"&"+id+"&"+ps+"&"+xb+"&"+sw
                         global.noTitle[tokenId]=titleListdes;
                         global.noNm[tokenId]=nicknameListdes;
                    
@@ -770,6 +787,7 @@ console.log("sw result"+ sw);
 
              
             })
+            global.hash[tokenId] = global.hash[tokenId]+"&"+id+"&"+ps+"&"+xb+"&"+sw
             
             console.log(global.hash[tokenId])
             console.log(global.noTitle[tokenId]);
@@ -785,9 +803,9 @@ console.log("sw result"+ sw);
           });
 
           
-          receivingPs(tokenId);
+        //   receivingPs(tokenId);
           receivingXb(tokenId);
-          receivingSw(tokenId);
+        //   receivingSw(tokenId);
 
 
 
