@@ -15,7 +15,9 @@
  postNm = [];
  postNmxb = [];
  postNmsw = [];
- noNm=[];
+
+ noTitle={};
+ noNm={};
 
  category=[];
 console.log("this is global")
@@ -42,5 +44,6 @@ module.exports = postNmsw;
 module.exports = postNmxb;
 
 module.exports = noNm;
+module.exports = noTitle;
 
 module.exports = category;

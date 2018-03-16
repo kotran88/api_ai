@@ -165,7 +165,7 @@ function receivingSw(tokenId){
             console.log("sum is")
             console.log(sum);
             for(name in global.hash){
-                console.log("name is : "+name);
+                console.log("sw name is : "+name);
             
             
                 console.log(global.hash[name]);
@@ -322,7 +322,7 @@ console.log("global hash check in xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 console.log(global.hash);
 console.log("token : "+tokenId);
 for(name in global.hash){
-    console.log("name is : "+name);
+    console.log("xb name is : "+name);
 
 
     console.log(global.hash[name]);
@@ -463,13 +463,15 @@ function receivingPs(tokenId){
 
 console.log("request ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
 console.log(global.hash);
+console.log(global.noNm);
+console.log(global.noTitle);
 console.log(tokenId)
 var sum = "";
          
 
 
 for(name in global.hash){
-    console.log("name is : "+name);
+    console.log("ps name is : "+name);
 
 
     console.log(global.hash[name]);
@@ -490,10 +492,13 @@ for(name in global.hash){
      console.log(swflag);
      console.log("ps flagiing input")
      for(var i=0; i<global.noNm.length; i++){
-        console.log("rrrrroutines : "+i);
+        console.log("rrrrroutines : "+global.noNm[i]);
     }
     var aa = global.noNm;
      if(psflag=="clicked"){
+         console.log("ps clicked confirmed")
+         console.log(newkeyword);
+         console.log(global.titleList);
         for(var i=0; i<newkeyword.length; i++ ){
             
              for(var j=0; j<global.titleList.length; j++){
@@ -502,6 +507,7 @@ for(name in global.hash){
       
                     if(newkeyword[i].length>0){
                         console.log("일치한다??????"+newkeyword[i]+"///"+global.titleList[j])
+                        console.log("ps nickname is : "+global.nickname[j]);
                         console.log(name);
                         var message = { 
                             //2192c71b-49b9-4fe1-bee8-25617d89b4e8
@@ -515,16 +521,26 @@ for(name in global.hash){
             
             
                         var flaging=false;
-                        console.log("global no name");
+                        console.log("ps gggglobal no name");
+                        
                         console.log(global.noNm[0]);
-                        console.log(global.postNm[j]);
-                        global.noNm.forEach(function(element) {
-                          console.log("routinesssssssssssssssssssssssssssssss"+element);
-                          if(element==global.postNm[j]){
-                              console.log("금지므로 발소안함")
-                                                flaging=true;
-                            }
+                        console.log(global.nickname[j]);
+                        console.log("이번 포트느는 네임 : "+global.noNm[name]);
+                        global.noNm[name].forEach(function(element) {
+                          console.log("name routinesssssssssssssssssssssssssssssss"+element);
+                          if(element==global.nickname[j]){
+                                    console.log(global.nickname[j]+"금지 일치므로 발소안함")
+                                                      flaging=true;
+                                  }
                       }, this);
+                    //   global.noTitle[name].forEach(function(element) {
+                    //     console.log("title routinesssssssssssssssssssssssssssssss"+element);
+                    //     console.log(global.titleList[j])
+                    //     if(element==global.titleList[j]){
+                    //         console.log(global.titleList[j]+"금지 일치므로 발소안함")
+                    //                           flaging=true;
+                    //       }
+                    // }, this);
                       //   for(var i=0; i<newkeyword.length; i++ ){
                         if(global.noNm.length>0){
                             console.log("gogogo"+global.noNm[0]);
@@ -613,8 +629,11 @@ function intervalFunc() {
     var ref= firebase.database().ref().child("profile")
     
  global.hash={};
+ global.noNm={};
+ global.noTitle={};
         global.stringList=[];
-       
+        var titleListdes=[];
+        var nicknameListdes=[];
     ref.once('value',function(snapshot){
        
         var arr = snapshot.val();
@@ -629,55 +648,112 @@ function intervalFunc() {
         var sw;
         var id;
 
+        var flag;
         snapshot.forEach(function(child) {
 
             ps="no_clicked";
             xb="no_clicked";
             sw="no_clicked";
+            titlee="";
+            nickk="";
+            titleListdes=[];
+            nicknameListdes=[];
             child.forEach(function(childs){
 
+                flag=false;
+                
                 console.log(childs.key);
                 console.log(childs.val())
                 if(childs.key=="id"){
                     id=childs.val();
                 }
                 if(childs.key=="ps"){
-                    console.log("ps "+childs.val());
+                    console.log("pssssssssssss "+childs.val());
                     ps=childs.val();
-
+                   
                 }
                 if(childs.key=="xb"){
                    
                     console.log("xbbbb "+childs.val());
                     xb=childs.val();
-                    global.hash[tokenId] = global.stringList+"&"+id+"&"+ps+"&"+xb+"&"+sw
+                    // global.hash[tokenId] = global.stringList+"&"+id+"&"+ps+"&"+xb+"&"+sw
                 }
                 if(childs.key=="sw"){
                     console.log("sw  "+childs.val());
                     sw=childs.val();
                 }
+                
                 if(childs.key=="list"){
+                    var flag = false;
                     childs.forEach(function(childss) {
+                        var nicknamedes="";
+                        var titledes="sdsd";
+                        
                         childss.forEach(function(childsss){
+                                if(childsss.key=="nickname"){
+                                    console.log("nicknamedes 에 넣는다"+childsss.val());
+                                   
+                                    nicknamedes=childsss.val();
+                                    // console.log("this is nick!!!"+nickname);
+                                }
+                                if(childsss.key=="title"){
+                                    console.log("titleListdes 에 넣는다"+childsss.val());
+                                   titledes=childsss.val();
+                                   console.log(childsss.val());
+                                   console.log("title is : "+titledes);
+
+
+                                   console.log("flag test2222"+flag);
+                                    // console.log("this is title!????!!"+titledes);
+                                    // console.log("flag is : "+flag);
+                                    // if(flag){
+                                    //     console.log("nick and title put"+nickname+"///"+titledes)
+                                    //     global.noNm[tokenId].push(nickname);
+                                    //     global.noTitle[tokenId].push(titledes);
+                                    // }
+                                }
+                            
                             if(childsss.key=="postNm"){
                             }
                             if(childsss.key=="noalarm"){
-                                global.noNm.push(childsss.val());
+                                flag=true;
+                                console.log("noalarm!!!!"+nicknamedes+"///titleee : "+titledes);
+                                nicknameListdes.push(nicknamedes);
+                                titleListdes.push(titledes);
+                               console.log("title and nickname is ")
+                               console.log(titleListdes);
+                               console.log(nicknameListdes);
+                               console.log("flag test : "+flag);
                                 
                             }
+                            console.log("childsssss end!"+childsss.key);
+                            
                         })
                     })
-                    global.noNm=Array.from(new Set(global.noNm))
-                    console.log("global nO!!!!!!!!!!!!!")
-                    console.log(global.noNm)
+                    console.log("global no Title and Nickname");
+                    // global.noNm=Array.from(new Set(global.noNm))
+                    // global.noTitle=Array.from(new Set(global.noTitle))
+                    console.log("global no Title and Nickname22222");
                 }
                 if(childs.key=="tokenId"){
                     
 
+                    console.log("tokenstarttttttttttttt");
                     tokenId=childs.val();
-console.log("checked")
-
-           
+                   
+                    console.log(global.hash);
+                    console.log(global.noNm);
+                    console.log(global.noTitle);
+                  
+                    
+                    console.log("flag is des : "+flag);
+                    global.hash[tokenId] = global.stringList+"&"+id+"&"+ps+"&"+xb+"&"+sw
+                        global.noTitle[tokenId]=titleListdes;
+                        global.noNm[tokenId]=nicknameListdes;
+                   
+                    console.log(global.hash[tokenId]); 
+                    console.log("checked")
+    
 console.log("ps result"+ps)
 console.log("xb result"+xb);
 console.log("sw result"+ sw);
@@ -690,18 +766,18 @@ console.log("sw result"+ sw);
 
                     
                 }
-                if(childs.key=="noalarm"){
-                    global.hash[childs.val()] = global.hash[childs.val()]+"&"+childs.val();
-
-                }
+                
 
              
             })
             
             console.log(global.hash[tokenId])
-            
-            console.log("child end")
-            
+            console.log(global.noTitle[tokenId]);
+            console.log(global.noNm[tokenId]);
+            console.log("child end des !!!!!!!!!!!")
+            console.log(global.hash)
+            console.log(global.noTitle);
+            console.log(global.noNm);
           console.log("pssssss result"+ps)
           console.log("xbssssssss result"+xb);
           console.log("swsssssssssss result"+ sw);
@@ -710,8 +786,11 @@ console.log("sw result"+ sw);
 
           
           receivingPs(tokenId);
-          receivingXb(tokenId);
-          receivingSw(tokenId);
+        //   receivingXb(tokenId);
+        //   receivingSw(tokenId);
+
+
+
         //   if(ps=="clicked"){
         //     console.log("flag test ps")
         //     console.log(id);
@@ -739,7 +818,7 @@ app.get('/',function(req,res){
     intervalFunc();
 
     //10분 마다 조회한다. 
-    setInterval(intervalFunc, 1000*60*15);
+    setInterval(intervalFunc, 1000*60*1);
 
     
     // var config = url.parse(mqtt_url);
