@@ -193,9 +193,9 @@ function receivingSw(tokenId){
 
 
                                 console.log("sw 일치한다"+global.titleListSw[j])
-                                console.log(global.postNmsw)
+                                console.log(global.noNm)
                                 var flaging=false;
-                                global.noNm.forEach(function(element) {
+                                global.noNm[name].forEach(function(element) {
                                     console.log("sw routinesssssssssssssssssssssssssssssss"+element);
                                     if(element==global.postNmsw[j]){
                                         console.log("sw 금지므로 발소안함")
@@ -203,18 +203,14 @@ function receivingSw(tokenId){
                                       }
                                 }, this);
                                 //   for(var i=0; i<newkeyword.length; i++ ){
-                                  if(global.noNm.length>0){
-                                      console.log("sw "+global.noNm[0]);
-                                      
-                                     
-                                  }
+                                 
                                  
                                   console.log("sw 일치한다"+flaging)
                                   if(!flaging){
 
                                     var message = { 
                                         //2192c71b-49b9-4fe1-bee8-25617d89b4e8
-                                        app_id: "2192c71b-49b9-4fe1-bee8-25617d89b4e8",
+                                        app_id: "3ccd720d-dd44-41dd-9a72-3224fe45d756",
                                         contents: {"en": "클릭하면, 상세내용으로 이동합니다."},
                                         headings : {"en":global.titleListSw[j]},
                                         // subtitle : {"en":"this is subtitle"},
@@ -366,7 +362,7 @@ for(name in global.hash){
                       if(global.noNm.length>0){
                           console.log("XB "+global.noNm[0]);
                           
-                          global.noNm.forEach(function(element) {
+                          global.noNm[name].forEach(function(element) {
                             console.log("XB routinesssssssssssssssssssssssssssssss"+element);
                             if(element==global.postNmxb[j]){
                                 console.log("XB 금지므로 발송안함")
@@ -836,7 +832,7 @@ app.get('/',function(req,res){
     intervalFunc();
 
     //10분 마다 조회한다. 
-    setInterval(intervalFunc, 1000*60*15);
+    setInterval(intervalFunc, 1000*60*20);
 
     
     // var config = url.parse(mqtt_url);
