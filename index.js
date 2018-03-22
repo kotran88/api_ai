@@ -829,10 +829,7 @@ console.log("sw result"+ sw);
   }
 app.get('/',function(req,res){
     console.log("today88");
-    intervalFunc();
-
-    //10분 마다 조회한다. 
-    setInterval(intervalFunc, 1000*60*20);
+    
 
     
     // var config = url.parse(mqtt_url);
@@ -998,4 +995,7 @@ app.use(function(err,req,res,next){
 var server = app.listen(process.env.PORT || 13145, function () {
     var port = server.address().port;
     console.log("Express is working on port " + port);
+    intervalFunc();
+    
+        setInterval(intervalFunc, 1000*60*30);
   });
