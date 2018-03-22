@@ -369,7 +369,7 @@ for(name in global.hash){
                           global.noNm.forEach(function(element) {
                             console.log("XB routinesssssssssssssssssssssssssssssss"+element);
                             if(element==global.postNmxb[j]){
-                                console.log("XB 금지므로 발소안함")
+                                console.log("XB 금지므로 발송안함")
                                                   flaging=true;
                               }
                         }, this);
@@ -803,9 +803,9 @@ console.log("sw result"+ sw);
           });
 
           
-        //   receivingPs(tokenId);
+          receivingPs(tokenId);
           receivingXb(tokenId);
-        //   receivingSw(tokenId);
+          receivingSw(tokenId);
 
 
 
