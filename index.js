@@ -129,7 +129,355 @@ app.get("/getIp",function(req,res){
     //   });
 
 })
+function receivingPsp(tokenId){
 
+
+
+
+
+
+    var targetUrlDs = 'http://market.ruliweb.com/list.htm?table=market_psp';
+    
+         request(targetUrlDs,function(error,response,body){
+            var $ = jQuery = cheerio.load(body);
+            console.log("request psp come");
+            
+              $('#ruliboard_list').each(function(item){
+                  var region = $(this).find('.market_kind').text().trim();
+                  var flag =  $(this).find('.market_place').text().trim();
+      
+                  var title =  $(this).find('.market_subject').text().trim();
+                  var atag = $(this).find('.market_subject').find('a').attr('href');
+                  console.log("atag is ");
+                  console.log(atag);
+                  var date = $(this).find('.market_date').text().trim();
+                  var dataAValue = globalData.dataA;
+      
+                  var nickname = $(this).find('.market_nick').text().trim();
+                  var postNm = $(this).find('.market_num').text().trim();
+    
+                  
+                  console.log(dataAValue)
+                  global.linkUrlPsp.push(atag);
+                  global.nicknamePsp.push(nickname)
+                  global.titleListPsp.push(title);
+                  global.postNmPsp.push(postNm);
+                  console.log(region);
+                  console.log(title)
+              })
+    
+              var sum = "";
+                console.log("sum is")
+                console.log(sum);
+                for(name in global.hash){
+                    console.log("sw name is : "+name);
+                
+                
+                    console.log(global.hash[name]);
+                
+                    var newkeyword=[];
+                    var id = global.hash[name].split("&")[1]
+                    console.log(global.hash[name]);
+                    console.log("ps id isssss : "+id);
+                    newkeyword =  global.hash[name].split("&")[0].split('/');
+                    var psflag = global.hash[name].split("&")[2]
+                    var xbflag = global.hash[name].split("&")[3]
+                    var swflag = global.hash[name].split("&")[4]
+                    var dsflag = global.hash[name].split("&")[5]
+                    var pspflag = global.hash[name].split("&")[6]
+                    console.log(psflag);
+                    console.log(xbflag);
+                    console.log(swflag);
+                    console.log(dsflag);
+                    console.log(pspflag);
+                    console.log("psp flagiing input")
+                
+                    if(pspflag=="clicked"){
+    
+                        for(var i=0; i<newkeyword.length; i++ ){
+                            
+                             for(var j=0; j<global.titleListPsp.length; j++){
+                                
+                                 if(global.titleListPsp[j].indexOf(newkeyword[i])>=0){
+    
+    
+                                    console.log("psp 일치한다"+global.titleListPsp[j])
+                                    console.log(global.noNm)
+                                    var flaging=false;
+                                    global.noNm[name].forEach(function(element) {
+                                        console.log("psp routinesssssssssssssssssssssssssssssss"+element);
+                                        if(element==global.postNmPsp[j]){
+                                            console.log("psp 금지므로 발소안함")
+                                                              flaging=true;
+                                          }
+                                    }, this);
+                                    //   for(var i=0; i<newkeyword.length; i++ ){
+                                     
+                                     
+                                      console.log("psp 일치한다"+flaging)
+                                      if(!flaging){
+    
+                                        var message = { 
+                                            //2192c71b-49b9-4fe1-bee8-25617d89b4e8
+                                            app_id: "3ccd720d-dd44-41dd-9a72-3224fe45d756",
+                                            contents: {"en": "클릭하면, 상세내용으로 이동합니다."},
+                                            headings : {"en":global.titleListPsp[j]},
+                                            // subtitle : {"en":"this is subtitle"},
+                                            data: {"datas":global.linkUrlPsp[j]},
+                                            include_player_ids: [name]
+                                        };
+                    
+                                        console.log(name+"PPPPPPPPPPPPPPPPPPPPPPPPringfting");
+                                       
+                    
+                                        let today = new Date();
+                                        let dd;
+                                        let day;
+                                        let month;
+                                         dd = today.getDate();
+                                        var mm = today.getMonth()+1; //January is 0!
+                                        var yyyy = today.getFullYear();
+                                       var time=new Date().toLocaleTimeString('en-US', { hour12: false,hour: "numeric",minute: "numeric",second:"numeric"});
+                                        dd<10?day='0'+dd:day=''+dd;
+                                        mm<10?month='0'+mm:month=''+mm;
+                                        var minute=time.minute
+                                        
+                                       
+                                        var d = new Date();
+                                        var hour = d.getHours();
+                                        var n = d.getMinutes();
+                                        var s = d.getSeconds();
+                                        console.log("name to filtering"+global.nicknamePsp[j]);
+                                        global.noNm[name].forEach(function(element) {
+                                          console.log("name routinesssssssssssssssssssssssssssssss"+element);
+                                          if(element==global.nicknamePsp[j]){
+                                                    console.log(global.nicknamePsp[j]+"금지 일치므로 발소안함")
+                                                                      flaging=true;
+                                                  }
+                                      }, this);
+                                      console.log("message is ...");
+                                      console.log(message);
+                                        sendNotification(message);
+                                        let  postData = {
+                                            title:global.titleListPsp[j],
+                                            time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
+                                            nickname : global.nicknamePsp[j],
+                                            link : global.linkUrlPsp[j],
+                                            flag : "psp",
+                                            postNm:global.postNmPsp[j]
+                                         };
+                                         firebase.database().ref(`profile/`+id+"/list").push(postData, error => {
+                                             if (error) {
+                                                 console.log("eeeeeeeeeeeeeeeeee"+error)
+                                               // Log error to external service, e.g. Sentry
+                                             } else {
+                                                 console.log("successsssssss")
+                                             }
+                                           });
+                                     }
+                                                   
+                                      }
+                                 
+                                 }
+                             }
+                           }
+                    }
+    
+                         
+                         
+    
+                
+    
+    
+              
+    
+            global.titleListPsp=[];
+            global.linkUrlPsp=[];
+            global.nicknamePsp=[];
+    
+        });
+
+
+
+
+
+}
+function receivingDs(tokenId){
+    
+
+
+
+
+    var targetUrlDs = 'http://market.ruliweb.com/list.htm?table=market_nds';
+    
+         request(targetUrlDs,function(error,response,body){
+            var $ = jQuery = cheerio.load(body);
+            console.log("request sw come");
+            
+              $('#ruliboard_list').each(function(item){
+                  var region = $(this).find('.market_kind').text().trim();
+                  var flag =  $(this).find('.market_place').text().trim();
+      
+                  var title =  $(this).find('.market_subject').text().trim();
+                  var atag = $(this).find('.market_subject').find('a').attr('href');
+                  console.log("atag is ");
+                  console.log(atag);
+                  var date = $(this).find('.market_date').text().trim();
+                  var dataAValue = globalData.dataA;
+      
+                  var nickname = $(this).find('.market_nick').text().trim();
+                  var postNm = $(this).find('.market_num').text().trim();
+    
+                  
+                  console.log(dataAValue)
+                  global.linkUrlDs.push(atag);
+                  global.nicknameDs.push(nickname)
+                  global.titleListDs.push(title);
+                  global.postNmDs.push(postNm);
+                  console.log(region);
+                  console.log(title)
+              })
+    
+              var sum = "";
+                console.log("sum is")
+                console.log(sum);
+                for(name in global.hash){
+                    console.log("sw name is : "+name);
+                
+                
+                    console.log(global.hash[name]);
+                
+                    var newkeyword=[];
+                    var id = global.hash[name].split("&")[1]
+                    console.log(global.hash[name]);
+                    console.log("ps id isssss : "+id);
+                    newkeyword =  global.hash[name].split("&")[0].split('/');
+                    var psflag = global.hash[name].split("&")[2]
+                    var xbflag = global.hash[name].split("&")[3]
+                    var swflag = global.hash[name].split("&")[4]
+                    var dsflag = global.hash[name].split("&")[5]
+                    var pspflag = global.hash[name].split("&")[6]
+                    console.log(psflag);
+                    console.log(xbflag);
+                    console.log(swflag);
+                    console.log(dsflag);
+                    console.log(pspflag);
+                    console.log("sw flagiing input")
+                
+                    if(dsflag=="clicked"){
+    
+                        for(var i=0; i<newkeyword.length; i++ ){
+                            
+                             for(var j=0; j<global.titleListDs.length; j++){
+                                
+                                 if(global.titleListDs[j].indexOf(newkeyword[i])>=0){
+    
+    
+                                    console.log("DS 일치한다"+global.titleListDs[j])
+                                    console.log(global.noNm)
+                                    var flaging=false;
+                                    global.noNm[name].forEach(function(element) {
+                                        console.log("sw routinesssssssssssssssssssssssssssssss"+element);
+                                        if(element==global.postNmDs[j]){
+                                            console.log("sw 금지므로 발소안함")
+                                                              flaging=true;
+                                          }
+                                    }, this);
+                                    //   for(var i=0; i<newkeyword.length; i++ ){
+                                     
+                                     
+                                      console.log("sw 일치한다"+flaging)
+                                      if(!flaging){
+    
+                                        var message = { 
+                                            //2192c71b-49b9-4fe1-bee8-25617d89b4e8
+                                            app_id: "3ccd720d-dd44-41dd-9a72-3224fe45d756",
+                                            contents: {"en": "클릭하면, 상세내용으로 이동합니다."},
+                                            headings : {"en":global.titleListDs[j]},
+                                            // subtitle : {"en":"this is subtitle"},
+                                            data: {"datas":global.linkUrlDs[j]},
+                                            include_player_ids: [name]
+                                        };
+                    
+                                        console.log(name+"PPPPPPPPPPPPPPPPPPPPPPPPringfting");
+                                       
+                    
+                                        let today = new Date();
+                                        let dd;
+                                        let day;
+                                        let month;
+                                         dd = today.getDate();
+                                        var mm = today.getMonth()+1; //January is 0!
+                                        var yyyy = today.getFullYear();
+                                       var time=new Date().toLocaleTimeString('en-US', { hour12: false,hour: "numeric",minute: "numeric",second:"numeric"});
+                                        dd<10?day='0'+dd:day=''+dd;
+                                        mm<10?month='0'+mm:month=''+mm;
+                                        var minute=time.minute
+                                        
+                                       
+                                        var d = new Date();
+                                        var hour = d.getHours();
+                                        var n = d.getMinutes();
+                                        var s = d.getSeconds();
+                                        console.log("name to filtering"+global.nicknameDs[j]);
+                                        global.noNm[name].forEach(function(element) {
+                                          console.log("name routinesssssssssssssssssssssssssssssss"+element);
+                                          if(element==global.nicknameDs[j]){
+                                                    console.log(global.nicknameDs[j]+"금지 일치므로 발소안함")
+                                                                      flaging=true;
+                                                  }
+                                      }, this);
+                                      if(!flaging){
+                                          console.log("ds message is ");
+                                          console.log(message);
+                                        sendNotification(message);
+                                        let  postData = {
+                                            title:global.titleListDs[j],
+                                            time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
+                                            nickname : global.nicknameDs[j],
+                                            link : global.linkUrlDs[j],
+                                            flag : "ds",
+                                            postNm:global.postNmDs[j]
+                                         };
+                                         firebase.database().ref(`profile/`+id+"/list").push(postData, error => {
+                                             if (error) {
+                                                 console.log("eeeeeeeeeeeeeeeeee"+error)
+                                               // Log error to external service, e.g. Sentry
+                                             } else {
+                                                 console.log("successsssssss")
+                                             }
+                                           });
+                                      }
+                                                   
+                                      }
+                                 
+                                 }
+                             }
+                           }
+                    }
+    
+                         
+                         
+    
+                
+    
+                }
+    
+              
+    
+            global.titleListDs=[];
+            global.linkUrlDs=[];
+            global.nicknameDs=[];
+    
+        });
+
+
+
+
+
+
+
+}
 function receivingSw(tokenId){
       var targetUrlSw = 'http://market.ruliweb.com/list.htm?table=market_ngc';
 
@@ -665,6 +1013,8 @@ function intervalFunc() {
             ps="no_clicked";
             xb="no_clicked";
             sw="no_clicked";
+            ds="no_clicked";
+            psp = "no_clicked";
             titlee="";
             nickk="";
             titleListdes=[];
@@ -693,6 +1043,17 @@ function intervalFunc() {
                 if(childs.key=="sw"){
                     console.log("sw  "+childs.val());
                     sw=childs.val();
+                }
+
+                if(childs.key=="ds"){
+                    console.log("ds  "+childs.val());
+                    ds=childs.val();
+                }
+
+
+                if(childs.key=="psp"){
+                    console.log("psp  "+childs.val());
+                    psp=childs.val();
                 }
                 
                 if(childs.key=="list"){
@@ -770,6 +1131,8 @@ function intervalFunc() {
 console.log("ps result"+ps)
 console.log("xb result"+xb);
 console.log("sw result"+ sw);
+console.log("psp result"+psp);
+console.log("ds result"+ ds);
                     console.log(id)
                                         console.log(global.hash[childs.val()])
                                     }
@@ -783,7 +1146,7 @@ console.log("sw result"+ sw);
 
              
             })
-            global.hash[tokenId] = global.hash[tokenId]+"&"+id+"&"+ps+"&"+xb+"&"+sw
+            global.hash[tokenId] = global.hash[tokenId]+"&"+id+"&"+ps+"&"+xb+"&"+sw+"&"+ds+"&"+psp
             
             console.log(global.hash[tokenId])
             console.log(global.noTitle[tokenId]);
@@ -802,6 +1165,8 @@ console.log("sw result"+ sw);
           receivingPs(tokenId);
           receivingXb(tokenId);
           receivingSw(tokenId);
+          receivingPsp(tokenId);
+          receivingDs(tokenId);
 
 
 

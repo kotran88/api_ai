@@ -8,6 +8,15 @@
  titleListSw = [];
  nicknameSw=[];
  linkUrlSw=[];
+
+ titleListDs = [];
+ nicknameDs=[];
+ linkUrlDs=[];
+
+ titleListPsp= [];
+ nicknamePsp=[];
+ linkUrlPsp=[];
+
  titleListXb = [];
  nicknameXb=[];
  linkUrlXb=[];
@@ -15,6 +24,8 @@
  postNm = [];
  postNmxb = [];
  postNmsw = [];
+ postNmPsp=[];
+ postNmDs=[];
 
  noTitle={};
  noNm={};
@@ -32,6 +43,14 @@ module.exports = linkUrlSw;
 module.exports = titleListSw;
 module.exports = nicknameSw;
 
+module.exports = linkUrlPsp;
+module.exports = titleListPsp;
+module.exports = nicknamePsp;
+
+module.exports = linkUrlDs;
+module.exports = titleListDs;
+module.exports = nicknameDs;
+
 module.exports = linkUrlXb;
 module.exports = titleListXb;
 module.exports = nicknameXb;
@@ -42,6 +61,8 @@ module.exports = dataA;
 module.exports = postNm;
 module.exports = postNmsw;
 module.exports = postNmxb;
+module.exports = postNmPsp;
+module.exports = postNmDs;
 
 module.exports = noNm;
 module.exports = noTitle;
