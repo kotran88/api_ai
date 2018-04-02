@@ -29,7 +29,7 @@ var app=express();
 var router = express.Router();
 var port = process.env.PORT || 13145
 var pIp="";
-
+var countTitle=0;
 var cheerio = require('cheerio');
 var request = require('request');
 
@@ -302,9 +302,176 @@ function receivingPsp(tokenId){
 
 
 }
-function receivingDs(tokenId){
-    
+function checkTitle(title,id,j,nick,link,post){
+    console.log("this is titleeeeee"+title);
 
+
+    
+    countTitle++;
+
+    console.log("contTitle is : "+countTitle);
+
+    console.log("id is : "+id);
+    var ref= firebase.database().ref().child("profile").child(id).child("list")
+    var count=0;
+    var firstkey="ss"
+    let today = new Date();
+    let dd;
+    let day;
+    let month;
+     dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+   var time=new Date().toLocaleTimeString('en-US', { hour12: false,hour: "numeric",minute: "numeric",second:"numeric"});
+    dd<10?day='0'+dd:day=''+dd;
+    mm<10?month='0'+mm:month=''+mm;
+    var minute=time.minute
+    
+   
+    var d = new Date();
+    var hour = d.getHours();
+    var n = d.getMinutes();
+    var s = d.getSeconds();
+
+    ref.once('value',function(snapshot){
+        console.log("ds gogogo");
+       
+
+       //디비에서 조회를 한다음에 일치하는게 있으면, 이전에 일치했던것을 지우고, 새로운것을 추가. 
+       // 일치하는게 없으면 그냥 추가. 
+
+
+
+       var ref= firebase.database().ref().child("profile").child(id).child("list")
+       ref.once('value',function(snapshot){
+       var test=0;
+       var determinflag=false;
+       snapshot.forEach(function(child) {
+        
+        test++;
+           console.log(child.val().title+"child come!!!!"+test+"titleeeee"+title);
+           
+            
+                
+                console.log("this is key"+child.key+"::::::::::id is : "+id);;
+                if(child.val().title==title){
+                    
+                    console.log(child.val().title);
+                    console.log("일치한닷ㅆㅆ title is : "+title);
+                    determinflag=true;
+
+                }else{
+                    // console.log(child.val().title);
+                    console.log("일치하지않으므로 디비에 추가!"+title);
+                
+                }
+                
+                console.log(determinflag+"????????????????????????????????????????????????")
+
+                // if(!determinflag){
+                //     console.log("디비에 추가"+title+"디비에 추가")
+                // }
+                if(determinflag){
+                    console.log(title+"ttttttttttttttttttttttttttttttttttttttttttttthis flag : "+determinflag);
+                    
+                }
+//지울 키를 어레이로 저장해놓고 for문을 통해 돌면서 그걸 삭제. 
+
+                // firebase.database().ref().child("profile").child(id).child("list").child(child.key).remove().then(()=>{
+                //     console.log("succccccccccccccccc")
+                // }).catch((err)=>{
+                //     console.log("err"+err);
+                // });
+        // }else{
+
+        // }
+        
+       //  console.log("determin flag : "+determinflag);
+       //  if(determinflag){
+       //      console.log("일치하므로 "+title+"를 디비에추가 dksgksek.")
+       //      return;
+       //  }else{
+       //      console.log("일치 gkwlddksgdmamfh 하므로, "+title+"추가. ")
+       //      return;
+       //  }
+       })
+       console.log(title+"detttt"+determinflag);
+       if(!determinflag){
+           console.log("title : "+title+"추가 디비에");
+
+              let  postData = {
+                       title:title,
+                       time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
+                       nickname : nick,
+                       link : link,
+                       flag : "ds",
+                       postNm:post
+                    };
+                    console.log("추가한닷")
+                    firebase.database().ref(`profile/`+id+"/list").push(postData, error => {
+                        if (error) {
+                            console.log("eeeeeeeeeeeeeeeeee"+error)
+                          // Log error to external service, e.g. Sentry
+                        } else {
+                            console.log("successsssssss")
+                        }
+                      });
+       }
+
+   });
+
+
+
+
+
+    //    if(snapshot.numChildren()==0){
+    //     let  postData = {
+    //         title:title,
+    //         time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
+    //         nickname : nick,
+    //         link : link,
+    //         flag : "ds",
+    //         postNm:post
+    //      };
+    //      console.log("추가한닷")
+    //      firebase.database().ref(`profile/`+id+"/list").push(postData, error => {
+    //          if (error) {
+    //              console.log("eeeeeeeeeeeeeeeeee"+error)
+    //            // Log error to external service, e.g. Sentry
+    //          } else {
+    //              console.log("successsssssss")
+    //          }
+    //        });
+    //    }else{
+    //        console.log("0이아니닷tttt"+title)
+
+
+    //        //title 하나에 대해서 profile / id / list 를 iterate 하기때문에 title x 하위노드만큼 돎.
+
+    //        //title 하나에 대해서 돌다가 일치하기만 하면 return 을 시켜야함. 
+
+
+           
+
+
+
+           
+    //    }
+
+       
+       
+        
+     });
+
+
+
+
+
+
+     
+}
+function receivingDs(tokenId){
+ 
 
 
 
@@ -312,7 +479,7 @@ function receivingDs(tokenId){
     
          request(targetUrlDs,function(error,response,body){
             var $ = jQuery = cheerio.load(body);
-            console.log("request sw come");
+            console.log("request ds come");
             
               $('#ruliboard_list').each(function(item){
                   var region = $(this).find('.market_kind').text().trim();
@@ -320,7 +487,7 @@ function receivingDs(tokenId){
       
                   var title =  $(this).find('.market_subject').text().trim();
                   var atag = $(this).find('.market_subject').find('a').attr('href');
-                  console.log("atag is ");
+                  console.log("ds atag is ");
                   console.log(atag);
                   var date = $(this).find('.market_date').text().trim();
                   var dataAValue = globalData.dataA;
@@ -335,14 +502,14 @@ function receivingDs(tokenId){
                   global.titleListDs.push(title);
                   global.postNmDs.push(postNm);
                   console.log(region);
-                  console.log(title)
+                  console.log(global.titleListDs)
               })
     
               var sum = "";
                 console.log("sum is")
                 console.log(sum);
                 for(name in global.hash){
-                    console.log("sw name is : "+name);
+                    console.log("ds name is : "+name);
                 
                 
                     console.log(global.hash[name]);
@@ -350,7 +517,7 @@ function receivingDs(tokenId){
                     var newkeyword=[];
                     var id = global.hash[name].split("&")[1]
                     console.log(global.hash[name]);
-                    console.log("ps id isssss : "+id);
+                    console.log("ds id isssss : "+id);
                     newkeyword =  global.hash[name].split("&")[0].split('/');
                     var psflag = global.hash[name].split("&")[2]
                     var xbflag = global.hash[name].split("&")[3]
@@ -362,8 +529,10 @@ function receivingDs(tokenId){
                     console.log(swflag);
                     console.log(dsflag);
                     console.log(pspflag);
-                    console.log("sw flagiing input")
+                    console.log("ds flagiing input")
                 
+                    console.log(global.titleListDs[j]);
+                    console.log(newkeyword[i])
                     if(dsflag=="clicked"){
     
                         for(var i=0; i<newkeyword.length; i++ ){
@@ -373,22 +542,23 @@ function receivingDs(tokenId){
                                  if(global.titleListDs[j].indexOf(newkeyword[i])>=0){
     
     
-                                    console.log("DS 일치한다"+global.titleListDs[j])
+                                    console.log(j+"DS 일치한다"+global.titleListDs[j])
                                     console.log(global.noNm)
                                     var flaging=false;
                                     global.noNm[name].forEach(function(element) {
-                                        console.log("sw routinesssssssssssssssssssssssssssssss"+element);
+                                        console.log("ds routinesssssssssssssssssssssssssssssss"+element);
                                         if(element==global.postNmDs[j]){
-                                            console.log("sw 금지므로 발소안함")
+                                            console.log("ds 금지므로 발소안함")
                                                               flaging=true;
                                           }
                                     }, this);
                                     //   for(var i=0; i<newkeyword.length; i++ ){
                                      
                                      
-                                      console.log("sw 일치한다"+flaging)
+                                      console.log("ds 일치한다"+flaging)
                                       if(!flaging){
     
+                                        console.log("title second"+global.titleListDs[j]);
                                         var message = { 
                                             //2192c71b-49b9-4fe1-bee8-25617d89b4e8
                                             app_id: "3ccd720d-dd44-41dd-9a72-3224fe45d756",
@@ -420,6 +590,7 @@ function receivingDs(tokenId){
                                         var n = d.getMinutes();
                                         var s = d.getSeconds();
                                         console.log("name to filtering"+global.nicknameDs[j]);
+                                        console.log("title to filtering"+global.titleListDs[j]);
                                         global.noNm[name].forEach(function(element) {
                                           console.log("name routinesssssssssssssssssssssssssssssss"+element);
                                           if(element==global.nicknameDs[j]){
@@ -430,27 +601,34 @@ function receivingDs(tokenId){
                                       if(!flaging){
                                           console.log("ds message is ");
                                           console.log(message);
-                                        sendNotification(message);
-                                        let  postData = {
-                                            title:global.titleListDs[j],
-                                            time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
-                                            nickname : global.nicknameDs[j],
-                                            link : global.linkUrlDs[j],
-                                            flag : "ds",
-                                            postNm:global.postNmDs[j]
-                                         };
-                                         firebase.database().ref(`profile/`+id+"/list").push(postData, error => {
-                                             if (error) {
-                                                 console.log("eeeeeeeeeeeeeeeeee"+error)
-                                               // Log error to external service, e.g. Sentry
-                                             } else {
-                                                 console.log("successsssssss")
-                                             }
-                                           });
+                                        // sendNotification(message);
+
+
+                                        console.log("hihihi"+global.titleListDs[j]);
+                                        //이곳에서. 모든 /profile/id/list 이하 노드에서 제목을 조회한다음. 
+
+
+                                        /*nickname : global.nicknameDs[j],
+            link : global.linkUrlDs[j],
+            flag : "ds",
+            postNm:global.postNmDs[j] */
+
+                                        
+                                        //global.titleListDs[j] 와 일치하는게 있는 지 확인 
+
+                                       //일치하면 과거의 것을 삭제한다. 
+
+                                       
+                                      
+                                        
                                       }
                                                    
                                       }
                                  
+                                      checkTitle(global.titleListDs[j],id,j,global.nicknameDs[j],global.linkUrlDs[j],global.postNmDs[j]);
+
+
+
                                  }
                              }
                            }
@@ -460,8 +638,21 @@ function receivingDs(tokenId){
                          
     
                 
-    
-                }
+                    //이용자 수많큼 아래가 호출될듯. 
+                    console.log("몇번이나 불리나~~~")
+                    
+                } //name in hash 
+
+                   
+/**
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
     
               
     
@@ -636,6 +827,8 @@ function receivingSw(tokenId){
 
     });
 }
+
+
 function receivingXb(tokenId){
     var targetUrlXb = 'http://market.ruliweb.com/list.htm?table=market_xbox';
     
@@ -1162,10 +1355,10 @@ console.log("ds result"+ ds);
           });
 
           
-          receivingPs(tokenId);
-          receivingXb(tokenId);
-          receivingSw(tokenId);
-          receivingPsp(tokenId);
+        //   receivingPs(tokenId);
+        //   receivingXb(tokenId);
+        //   receivingSw(tokenId);
+        //   receivingPsp(tokenId);
           receivingDs(tokenId);
 
 
@@ -1357,10 +1550,12 @@ app.use(function(err,req,res,next){
 	res.status(500);
 	res.send('505-server');
 });
+
+
 var server = app.listen(process.env.PORT || 13145, function () {
     var port = server.address().port;
     console.log("Express is working on port " + port);
     intervalFunc();
     
-        setInterval(intervalFunc, 1000*60*30);
+        setInterval(intervalFunc, 1000*60*2);
   });
