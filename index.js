@@ -531,12 +531,14 @@ function receivingDs(tokenId){
                     console.log(pspflag);
                     console.log("ds flagiing input")
                 
-                    console.log(global.titleListDs[j]);
-                    console.log(newkeyword[i])
+                    console.log(global.titleListDs);
+                    
+                    console.log("keyword"+newkeyword);
                     if(dsflag=="clicked"){
     
                         for(var i=0; i<newkeyword.length; i++ ){
-                            
+                            console.log(newkeyword[i])
+                            console.log("keyword length is : "+newkeyword.length);
                              for(var j=0; j<global.titleListDs.length; j++){
                                 
                                  if(global.titleListDs[j].indexOf(newkeyword[i])>=0){
@@ -601,7 +603,7 @@ function receivingDs(tokenId){
                                       if(!flaging){
                                           console.log("ds message is ");
                                           console.log(message);
-                                        // sendNotification(message);
+                                        sendNotification(message);
 
 
                                         console.log("hihihi"+global.titleListDs[j]);
@@ -629,6 +631,8 @@ function receivingDs(tokenId){
 
 
 
+                                 }else{
+                                     console.log("no matched");
                                  }
                              }
                            }
@@ -1355,10 +1359,10 @@ console.log("ds result"+ ds);
           });
 
           
-        //   receivingPs(tokenId);
-        //   receivingXb(tokenId);
-        //   receivingSw(tokenId);
-        //   receivingPsp(tokenId);
+          receivingPs(tokenId);
+          receivingXb(tokenId);
+          receivingSw(tokenId);
+          receivingPsp(tokenId);
           receivingDs(tokenId);
 
 
@@ -1557,5 +1561,5 @@ var server = app.listen(process.env.PORT || 13145, function () {
     console.log("Express is working on port " + port);
     intervalFunc();
     
-        setInterval(intervalFunc, 1000*60*2);
+        setInterval(intervalFunc, 1000*60*30);
   });
