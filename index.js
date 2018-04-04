@@ -193,7 +193,8 @@ function receivingPsp(tokenId){
                     console.log("psp flagiing input")
                 
                     if(pspflag=="clicked"){
-    
+                        if((newkeyword.length==1&&newkeyword!="")||newkeyword.length>1){
+                            
                         for(var i=0; i<newkeyword.length; i++ ){
                             
                              for(var j=0; j<global.titleListPsp.length; j++){
@@ -204,12 +205,13 @@ function receivingPsp(tokenId){
                                     console.log("psp 일치한다"+global.titleListPsp[j])
                                     console.log(global.noNm)
                                     var flaging=false;
+                    
                                     global.noNm[name].forEach(function(element) {
-                                        console.log("psp routinesssssssssssssssssssssssssssssss"+element);
-                                        if(element==global.postNmPsp[j]){
-                                            console.log("psp 금지므로 발소안함")
-                                                              flaging=true;
-                                          }
+                                        console.log("name routinesssssssssssssssssssssssssssssss"+element);
+                                        if(element==global.nicknamePsp[j]){
+                                                  console.log(global.nicknamePsp[j]+"금지 일치므로 발소안함")
+                                                                    flaging=true;
+                                                }
                                     }, this);
                                     //   for(var i=0; i<newkeyword.length; i++ ){
                                      
@@ -230,56 +232,21 @@ function receivingPsp(tokenId){
                                         console.log(name+"PPPPPPPPPPPPPPPPPPPPPPPPringfting");
                                        
                     
-                                        let today = new Date();
-                                        let dd;
-                                        let day;
-                                        let month;
-                                         dd = today.getDate();
-                                        var mm = today.getMonth()+1; //January is 0!
-                                        var yyyy = today.getFullYear();
-                                       var time=new Date().toLocaleTimeString('en-US', { hour12: false,hour: "numeric",minute: "numeric",second:"numeric"});
-                                        dd<10?day='0'+dd:day=''+dd;
-                                        mm<10?month='0'+mm:month=''+mm;
-                                        var minute=time.minute
-                                        
-                                       
-                                        var d = new Date();
-                                        var hour = d.getHours();
-                                        var n = d.getMinutes();
-                                        var s = d.getSeconds();
                                         console.log("name to filtering"+global.nicknamePsp[j]);
-                                        global.noNm[name].forEach(function(element) {
-                                          console.log("name routinesssssssssssssssssssssssssssssss"+element);
-                                          if(element==global.nicknamePsp[j]){
-                                                    console.log(global.nicknamePsp[j]+"금지 일치므로 발소안함")
-                                                                      flaging=true;
-                                                  }
-                                      }, this);
+                                        
                                       console.log("message is ...");
                                       console.log(message);
                                         sendNotification(message);
-                                        let  postData = {
-                                            title:global.titleListPsp[j],
-                                            time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
-                                            nickname : global.nicknamePsp[j],
-                                            link : global.linkUrlPsp[j],
-                                            flag : "psp",
-                                            postNm:global.postNmPsp[j]
-                                         };
-                                         firebase.database().ref(`profile/`+id+"/list").push(postData, error => {
-                                             if (error) {
-                                                 console.log("eeeeeeeeeeeeeeeeee"+error)
-                                               // Log error to external service, e.g. Sentry
-                                             } else {
-                                                 console.log("successsssssss")
-                                             }
-                                           });
+                                        
                                      }
+
+                                     checkTitle(global.titleListPsp[j],id,j,global.nicknamePsp[j],global.linkUrlPsp[j],global.postNmPsp[j],"psp");
                                                    
                                       }
                                  
                                  }
                              }
+                            }
                            }
                     }
     
@@ -302,7 +269,7 @@ function receivingPsp(tokenId){
 
 
 }
-function checkTitle(title,id,j,nick,link,post){
+function checkTitle(title,id,j,nick,link,post,flaging){
     console.log("this is titleeeeee"+title);
 
 
@@ -404,7 +371,7 @@ function checkTitle(title,id,j,nick,link,post){
                        time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
                        nickname : nick,
                        link : link,
-                       flag : "ds",
+                       flag : flaging,
                        postNm:post
                     };
                     console.log("추가한닷")
@@ -533,109 +500,67 @@ function receivingDs(tokenId){
                 
                     console.log(global.titleListDs);
                     
-                    console.log("keyword"+newkeyword);
+                    console.log("keywordddd"+newkeyword);
+                    console.log("keywordddd"+newkeyword.length);
+                    console.log(newkeyword.length==1)
+                    console.log((newkeyword.length==1&&newkeyword!=""));
                     if(dsflag=="clicked"){
     
-                        for(var i=0; i<newkeyword.length; i++ ){
-                            console.log(newkeyword[i])
-                            console.log("keyword length is : "+newkeyword.length);
-                             for(var j=0; j<global.titleListDs.length; j++){
-                                
-                                 if(global.titleListDs[j].indexOf(newkeyword[i])>=0){
-    
-    
-                                    console.log(j+"DS 일치한다"+global.titleListDs[j])
-                                    console.log(global.noNm)
-                                    var flaging=false;
-                                    global.noNm[name].forEach(function(element) {
-                                        console.log("ds routinesssssssssssssssssssssssssssssss"+element);
-                                        if(element==global.postNmDs[j]){
-                                            console.log("ds 금지므로 발소안함")
-                                                              flaging=true;
+                        if((newkeyword.length==1&&newkeyword!="")||newkeyword.length>1){
+
+                            console.log("entering!")
+
+                            for(var i=0; i<newkeyword.length; i++ ){
+                                console.log(newkeyword[i])
+                                console.log("keyword length is : "+newkeyword.length);
+                                 for(var j=0; j<global.titleListDs.length; j++){
+                                    
+                                     if(global.titleListDs[j].indexOf(newkeyword[i])>=0){
+        
+        
+                                        console.log(j+"DS 일치한다"+global.titleListDs[j])
+                                        console.log(global.noNm)
+                                        var flaging=false;
+                                        
+                                        //   for(var i=0; i<newkeyword.length; i++ ){
+                                         
+                                         
+                                          console.log("ds 일치한다"+flaging)
+                                            console.log("title second"+global.titleListDs[j]);
+                                            var message = { 
+                                                //2192c71b-49b9-4fe1-bee8-25617d89b4e8
+                                                app_id: "3ccd720d-dd44-41dd-9a72-3224fe45d756",
+                                                contents: {"en": "클릭하면, 상세내용으로 이동합니다."},
+                                                headings : {"en":global.titleListDs[j]},
+                                                // subtitle : {"en":"this is subtitle"},
+                                                data: {"datas":global.linkUrlDs[j]},
+                                                include_player_ids: [name]
+                                            };
+                        
+                                            console.log(name+"PPPPPPPPPPPPPPPPPPPPPPPPringfting");
+                                           
+                        
+                                           
+                                            console.log("name to filtering"+global.nicknameDs[j]);
+                                            console.log("title to filtering"+global.titleListDs[j]);
+                                            global.noNm[name].forEach(function(element) {
+                                              console.log("name routinesssssssssssssssssssssssssssssss"+element);
+                                              if(element==global.nicknameDs[j]){
+                                                        console.log(global.nicknameDs[j]+"금지 일치므로 발소안함")
+                                                                          flaging=true;
+                                                      }
+                                          }, this);
+                                          if(!flaging){
+                                            sendNotification(message);
                                           }
-                                    }, this);
-                                    //   for(var i=0; i<newkeyword.length; i++ ){
-                                     
-                                     
-                                      console.log("ds 일치한다"+flaging)
-                                      if(!flaging){
-    
-                                        console.log("title second"+global.titleListDs[j]);
-                                        var message = { 
-                                            //2192c71b-49b9-4fe1-bee8-25617d89b4e8
-                                            app_id: "3ccd720d-dd44-41dd-9a72-3224fe45d756",
-                                            contents: {"en": "클릭하면, 상세내용으로 이동합니다."},
-                                            headings : {"en":global.titleListDs[j]},
-                                            // subtitle : {"en":"this is subtitle"},
-                                            data: {"datas":global.linkUrlDs[j]},
-                                            include_player_ids: [name]
-                                        };
-                    
-                                        console.log(name+"PPPPPPPPPPPPPPPPPPPPPPPPringfting");
-                                       
-                    
-                                        let today = new Date();
-                                        let dd;
-                                        let day;
-                                        let month;
-                                         dd = today.getDate();
-                                        var mm = today.getMonth()+1; //January is 0!
-                                        var yyyy = today.getFullYear();
-                                       var time=new Date().toLocaleTimeString('en-US', { hour12: false,hour: "numeric",minute: "numeric",second:"numeric"});
-                                        dd<10?day='0'+dd:day=''+dd;
-                                        mm<10?month='0'+mm:month=''+mm;
-                                        var minute=time.minute
-                                        
-                                       
-                                        var d = new Date();
-                                        var hour = d.getHours();
-                                        var n = d.getMinutes();
-                                        var s = d.getSeconds();
-                                        console.log("name to filtering"+global.nicknameDs[j]);
-                                        console.log("title to filtering"+global.titleListDs[j]);
-                                        global.noNm[name].forEach(function(element) {
-                                          console.log("name routinesssssssssssssssssssssssssssssss"+element);
-                                          if(element==global.nicknameDs[j]){
-                                                    console.log(global.nicknameDs[j]+"금지 일치므로 발소안함")
-                                                                      flaging=true;
-                                                  }
-                                      }, this);
-                                      if(!flaging){
-                                          console.log("ds message is ");
-                                          console.log(message);
-                                        sendNotification(message);
-
-
-                                        console.log("hihihi"+global.titleListDs[j]);
-                                        //이곳에서. 모든 /profile/id/list 이하 노드에서 제목을 조회한다음. 
-
-
-                                        /*nickname : global.nicknameDs[j],
-            link : global.linkUrlDs[j],
-            flag : "ds",
-            postNm:global.postNmDs[j] */
-
-                                        
-                                        //global.titleListDs[j] 와 일치하는게 있는 지 확인 
-
-                                       //일치하면 과거의 것을 삭제한다. 
-
-                                       
-                                      
-                                        
-                                      }
-                                                   
-                                      }
-                                 
-                                      checkTitle(global.titleListDs[j],id,j,global.nicknameDs[j],global.linkUrlDs[j],global.postNmDs[j]);
-
-
-
-                                 }else{
-                                     console.log("no matched");
+                                          checkTitle(global.titleListDs[j],id,j,global.nicknameDs[j],global.linkUrlDs[j],global.postNmDs[j],"ds");
+                                     }else{
+                                         console.log("no matched");
+                                     }
                                  }
-                             }
-                           }
+                               }
+                        }
+                        
                     }
     
                          
@@ -727,7 +652,8 @@ function receivingSw(tokenId){
                 console.log("sw flagiing input")
             
                 if(swflag=="clicked"){
-
+                    if((newkeyword.length==1&&newkeyword!="")||newkeyword.length>1){
+                        
                     for(var i=0; i<newkeyword.length; i++ ){
                         
                          for(var j=0; j<global.titleListSw.length; j++){
@@ -738,18 +664,6 @@ function receivingSw(tokenId){
                                 console.log("sw 일치한다"+global.titleListSw[j])
                                 console.log(global.noNm)
                                 var flaging=false;
-                                global.noNm[name].forEach(function(element) {
-                                    console.log("sw routinesssssssssssssssssssssssssssssss"+element);
-                                    if(element==global.postNmsw[j]){
-                                        console.log("sw 금지므로 발소안함")
-                                                          flaging=true;
-                                      }
-                                }, this);
-                                //   for(var i=0; i<newkeyword.length; i++ ){
-                                 
-                                 
-                                  console.log("sw 일치한다"+flaging)
-                                  if(!flaging){
 
                                     var message = { 
                                         //2192c71b-49b9-4fe1-bee8-25617d89b4e8
@@ -781,7 +695,7 @@ function receivingSw(tokenId){
                                     var hour = d.getHours();
                                     var n = d.getMinutes();
                                     var s = d.getSeconds();
-                                    console.log("name to filtering"+global.nicknameXb[j]);
+                                    console.log("name to filtering"+global.nicknameSw[j]);
                                     global.noNm[name].forEach(function(element) {
                                       console.log("name routinesssssssssssssssssssssssssssssss"+element);
                                       if(element==global.nicknameSw[j]){
@@ -791,25 +705,10 @@ function receivingSw(tokenId){
                                   }, this);
                                   if(!flaging){
                                     sendNotification(message);
-                                    let  postData = {
-                                        title:global.titleListSw[j],
-                                        time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
-                                        nickname : global.nicknameSw[j],
-                                        link : global.linkUrlSw[j],
-                                        flag : "sw",
-                                        postNm:global.postNmsw[j]
-                                     };
-                                     firebase.database().ref(`profile/`+id+"/list").push(postData, error => {
-                                         if (error) {
-                                             console.log("eeeeeeeeeeeeeeeeee"+error)
-                                           // Log error to external service, e.g. Sentry
-                                         } else {
-                                             console.log("successsssssss")
-                                         }
-                                       });
+                                    
                                   }
                                                
-                                  }
+                                  checkTitle(global.titleListSw[j],id,j,global.nicknameSw[j],global.linkUrlSw[j],global.postNmsw[j],"sw");
                              
                              }
                          }
@@ -817,7 +716,7 @@ function receivingSw(tokenId){
                 }
 
                      
-                     
+            }
 
             
 
@@ -893,6 +792,8 @@ for(name in global.hash){
     console.log("xb flagiing input"+xbflag)
     
     if(xbflag=="clicked"){
+        if((newkeyword.length==1&&newkeyword!="")||newkeyword.length>1){
+            
         for(var i=0; i<newkeyword.length; i++ ){
             
              for(var j=0; j<global.titleListXb.length; j++){
@@ -904,20 +805,6 @@ for(name in global.hash){
                     console.log(global.noNm);
                     
                     //   for(var i=0; i<newkeyword.length; i++ ){
-                      if(global.noNm.length>0){
-                          console.log("XB "+global.noNm[0]);
-                          
-                          global.noNm[name].forEach(function(element) {
-                            console.log("XB routinesssssssssssssssssssssssssssssss"+element);
-                            if(element==global.postNmxb[j]){
-                                console.log("XB 금지므로 발송안함")
-                                                  flaging=true;
-                              }
-                        }, this);
-                      }
-                     
-                      console.log("xb 일치한다"+flaging)
-                      if(!flaging){
                         var message = { 
                                   //2192c71b-49b9-4fe1-bee8-25617d89b4e8
                                   app_id: "3ccd720d-dd44-41dd-9a72-3224fe45d756",
@@ -962,31 +849,17 @@ for(name in global.hash){
                             console.log("xb sending flag :"+flaging);
                             if(!flaging){
                                 sendNotification(message);
-                                let  postData = {
-                                    title:global.titleListXb[j],
-                                    time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
-                                    nickname : global.nicknameXb[j],
-                                    link : global.linkUrlXb[j],
-                                    flag : "xb",
-                                    postNm:global.postNmxb[j]
-                                 };
-                                 firebase.database().ref(`profile/`+id+"/list").push(postData, error => {
-                                     if (error) {
-                                         console.log("eeeeeeeeeeeeeeeeee"+error)
-                                       // Log error to external service, e.g. Sentry
-                                     } else {
-                                         console.log("successsssssss")
-                                     }
-                                   });
+                               
                             }
                                          
 
-                      }
+                      checkTitle(global.titleListXb[j],id,j,global.nicknameXb[j],global.linkUrlXb[j],global.postNmxb[j],"xbox");
                 //  
                 
                  }
              }
            }
+        }
     }
 
              
@@ -1067,13 +940,15 @@ for(name in global.hash){
          console.log("ps clicked confirmed")
          console.log(newkeyword);
          console.log(global.titleList);
+
+        if((newkeyword.length==1&&newkeyword!="")||newkeyword.length>1){
+            
         for(var i=0; i<newkeyword.length; i++ ){
             
              for(var j=0; j<global.titleList.length; j++){
                  if(global.titleList[j].indexOf(newkeyword[i])>=0){
       
       
-                    if(newkeyword[i].length>0){
                         console.log("일치한다??????"+newkeyword[i]+"///"+global.titleList[j])
                         console.log("ps nickname is : "+global.nickname[j]);
                         console.log(name);
@@ -1108,52 +983,15 @@ for(name in global.hash){
                         if(!flaging){
                           console.log(tokenId+"jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjPPPPPPPPPPPPPPPPPPPPPPPPringfting");
                           sendNotification(message);
-                          let today = new Date();
-                          let dd;
-                          let day;
-                          let month;
-                           dd = today.getDate();
-                          var mm = today.getMonth()+1; //January is 0!
-                          var yyyy = today.getFullYear();
-                         var time=new Date().toLocaleTimeString('en-US', { hour12: false,hour: "numeric",minute: "numeric",second:"numeric"});
-                          dd<10?day='0'+dd:day=''+dd;
-                          mm<10?month='0'+mm:month=''+mm;
-                          var minute=time.minute
                           
-                         
-                          var d = new Date();
-                          var hour = d.getHours();
-                          var n = d.getMinutes();
-                          var s = d.getSeconds();
-                     
-                              let  postData = {
-                                  title:global.titleList[j],
-                                  time : month+"월"+day+"일"+hour+"시"+n+"분"+s+"초",
-                                  nickname : global.nickname[j],
-                                  link : global.linkUrl[j],
-                                  flag : "ps",
-                                  postNm : global.postNm[j]
-                              };
-                              firebase.database().ref(`profile/`+id+"/list").push(postData, error => {
-                                  if (error) {
-                                      console.log("eeeeeeeeeeeeeeeeee"+error)
-                                      // Log error to external service, e.g. Sentry
-                                  } else {
-                                      console.log("successsssssss")
-                                  }
-                                  });
+                          
                         }
-                           
-                        console.log("일치한다")
-            
-                      
-                    }
-                 
-                
-               
+                        checkTitle(global.titleList[j],id,j,global.nickname[j],global.linkUrl[j],global.postNm[j],"ps");
                  }
              }
            }
+
+        }
      }
     
      
@@ -1362,7 +1200,7 @@ console.log("ds result"+ ds);
           receivingPs(tokenId);
           receivingXb(tokenId);
           receivingSw(tokenId);
-          receivingPsp(tokenId);
+        //   receivingPsp(tokenId);
           receivingDs(tokenId);
 
 
