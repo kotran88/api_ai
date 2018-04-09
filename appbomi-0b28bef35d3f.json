@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "appbomi",
+  "private_key_id": "0b28bef35d3fb79e08402eec2d0b123911bf9089",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCkkk+l2ayyg5GL\ngV6g1i8+mrihr0jP7JjhogkQnc0jxaTr3WKA8Er8qdG39zeOp0zesIgp4NBxJZaq\nQmYJJxMP3RfGajSiaskTJTTkgXzdiHqaL1vLWfJxoHhc0XHGSicAMT0Ik/o34yGb\nXiZibFW/qNFWrRai3oghe02YMMMDg6dO0ICQ8QIRQ5UDVECAU76ficC29bF6c59p\nCRo1iLxUO3mL6r9NDnMIFYXoZ7munWI8YAW4b9nXAwnHL9Qe+/D+ZQxFPzqk8E1a\na3E36lMXK3VLv0q9+8SoP7lSmqLzDErx3HZFHsj6OBdsW3PstxXulF9eRuAqtOEs\n75d1/4+lAgMBAAECggEAD4sDW2j38ZLm3855JHxLfACFkuezhce/wgJZaX4DOO9a\nyIK2jJz6nWsLM/J1Bykajnxib9TG0Fjk0PHHzJzUemQURxi9czWIsMvhIfpvfkYn\nO4Fg4bootr3u1ZKxHzGJBhtLELtWdN7OdsET+P8TCNtQjNIjgtW89QSTQIjNHPte\n+xkcxZIK/lt4w4dYDyXli9sEjZiT0djtGQtXsa2x0JDayJqUatJqjmjFtUIaDkYe\nkBbL/05dB2AbXmqsC9c8allJFkDgFypckQSNS36MIj8VAlHtLLMn9PyRkX6si1Bb\neAqgTKyI+c2QzoWcGF7H7YQT6eNYGWGvO9lg1X+E5QKBgQDcufFsNGJpdoHtlPmX\n6K6d4CEG10DePKLRfQhVyvs9miX8ROVW3qhAzkcJtpZvguzJKh/ppoj3mzYaWJtA\nmWrnYC7P9bA1xrjpx7UZMGrWiVR8tiuKgBdTYqXzDy7/0V54CJBmsFFg+dAKMcLA\nomZUwM+b6wzOAuvBX2P9elSlmwKBgQC+3wnZsx2l8m7AVE6gU+aAgS5yoLl+z0Xa\ndHhnH2aRwVJbEXIj+pYdrW73zWe20dYlJX7D7dlqEXTyeIvYFoThkmU+N/U3oMBo\n0uWeS/fGTl82Ld1WD3k9XDBMmHj+oeyhRwpzc5H1vVOxBY6DpS/Vh29r6+qQr0ma\nG5Ql/UCTvwKBgQC8cOcDGQn3vdwZCHm6TkVdta6cl4Li+OOMc/F8xUmPgx3w7KTb\ncEY25aTSTxbJ5v3elF8gbDQ9KD6daY5KLXCOTphIpRmmH51YwU4ETki4FhCSVDiC\nCu9fGjZRd2IJtyau1ajqcpdXco9BVNBPA5bXvrDADYEmFGpP8e98xUalBwKBgAG/\nWP+9PBBA3/Ky0uV03y9d/2bdQdV/YExXtKJ9DxtWgcKDrl/V83niFJoAL2rlEOjW\nJwr0KoFmF4QAxob77cuC45pmOMCBoEFVbPS+DU6reQOt99DJ43pEVczduH3cTaZM\nWDQmYre1PAbq3hsmcAGsc8CxMDyS3kGi7wBKCUVRAoGAdep2cz5VAS3TAgUzb/Oq\nyLZumapFKaOq3qToTZF/0V6avA3kKfBhaqMeW3H3dCzfBMWEh7bfN826B2xJiHKR\nvRajA0GK3m3QwWFLlRqfsBPYFJsdEffhnlb75HXPH3d/a0q4g3y50t2d7TN4mj3b\n/gEqai1iau2K/6liO4zsk2Q=\n-----END PRIVATE KEY-----\n",
+  "client_email": "ruliweb@appbomi.iam.gserviceaccount.com",
+  "client_id": "106020586568286878700",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ruliweb%40appbomi.iam.gserviceaccount.com"
+}

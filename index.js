@@ -1,6 +1,6 @@
 var firebase = require('firebase').initializeApp({
-    serviceAccount:"./Ionic-8e43361a6400.json",
-    databaseURL:"https://ionic-173108.firebaseio.com/"
+    serviceAccount:"./appbomi-0b28bef35d3f.json",
+    databaseURL:"https://appbomi.firebaseio.com/"
 })
 var globalData = require('./globalData.js');
 
