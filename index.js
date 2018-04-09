@@ -475,6 +475,8 @@ function receivingDs(tokenId){
               var sum = "";
                 console.log("sum is")
                 console.log(sum);
+                console.log("global hash");
+                console.log(global.hash);
                 for(name in global.hash){
                     console.log("ds name is : "+name);
                 
@@ -1154,7 +1156,7 @@ function intervalFunc() {
                     console.log(global.noTitle);
                   
                     
-                    console.log("flag is des : "+flag);
+                    console.log(tokenId+"flag is des : "+global.stringList);
                     global.hash[tokenId] = global.stringList
                     //"&"+id+"&"+ps+"&"+xb+"&"+sw
                         global.noTitle[tokenId]=titleListdes;
