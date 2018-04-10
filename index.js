@@ -157,13 +157,20 @@ function receivingPsp(tokenId){
                   var postNm = $(this).find('.market_num').text().trim();
     
                   
-                  console.log(dataAValue)
-                  global.linkUrlPsp.push(atag);
-                  global.nicknamePsp.push(nickname)
-                  global.titleListPsp.push(title);
-                  global.postNmPsp.push(postNm);
-                  console.log(region);
-                  console.log(title)
+                  if ($(this).find('.market_subject strike').length>0) {
+                    //있음
+                    
+                    } else {
+
+                        console.log(dataAValue)
+                        global.linkUrlPsp.push(atag);
+                        global.nicknamePsp.push(nickname)
+                        global.titleListPsp.push(title);
+                        global.postNmPsp.push(postNm);
+                        console.log(region);
+                        console.log(title)
+                    }
+                 
               })
     
               var sum = "";
@@ -462,14 +469,20 @@ function receivingDs(tokenId){
                   var nickname = $(this).find('.market_nick').text().trim();
                   var postNm = $(this).find('.market_num').text().trim();
     
+                  if ($(this).find('.market_subject strike').length>0) {
+                    //있음
+                    
+                    } else {
+
+                        console.log(dataAValue)
+                        global.linkUrlDs.push(atag);
+                        global.nicknameDs.push(nickname)
+                        global.titleListDs.push(title);
+                        global.postNmDs.push(postNm);
+                        console.log(region);
+                        console.log(global.titleListDs)
+                    }
                   
-                  console.log(dataAValue)
-                  global.linkUrlDs.push(atag);
-                  global.nicknameDs.push(nickname)
-                  global.titleListDs.push(title);
-                  global.postNmDs.push(postNm);
-                  console.log(region);
-                  console.log(global.titleListDs)
               })
     
               var sum = "";
@@ -621,14 +634,19 @@ function receivingSw(tokenId){
               var nickname = $(this).find('.market_nick').text().trim();
               var postNm = $(this).find('.market_num').text().trim();
 
+              if ($(this).find('.market_subject strike').length>0) {
+                //있음
+                
+                } else {
+                    console.log(dataAValue)
+                    global.linkUrlSw.push(atag);
+                    global.nicknameSw.push(nickname)
+                    global.titleListSw.push(title);
+                    global.postNmsw.push(postNm);
+                    console.log(region);
+                    console.log(title)
+                }
               
-              console.log(dataAValue)
-              global.linkUrlSw.push(atag);
-              global.nicknameSw.push(nickname)
-              global.titleListSw.push(title);
-              global.postNmsw.push(postNm);
-              console.log(region);
-              console.log(title)
           })
 
           var sum = "";
@@ -758,11 +776,17 @@ function receivingXb(tokenId){
               var postNm = $(this).find('.market_num').text().trim();
 
 
-              global.linkUrlXb.push(atag);
-              global.nicknameXb.push(nickname)
-              global.titleListXb.push(title);
-
-              global.postNmxb.push(postNm);
+              if ($(this).find('.market_subject strike').length>0) {
+                //있음
+                
+                } else {
+                    global.linkUrlXb.push(atag);
+                    global.nicknameXb.push(nickname)
+                    global.titleListXb.push(title);
+      
+                    global.postNmxb.push(postNm);
+                }
+             
           })
 
           
@@ -887,21 +911,28 @@ function receivingPs(tokenId){
 
             var title =  $(this).find('.market_subject').text().trim();
             var atag = $(this).find('.market_subject').find('a').attr('href');
-            
+            var strikenumber = $(this).find('.market_subject strike');
             var date = $(this).find('.market_date').text().trim();
             var dataAValue = globalData.dataA;
 
             var nickname = $(this).find('.market_nick').text().trim();
 
             var postNm = $(this).find('.market_num').text().trim();
+
+            if ($(this).find('.market_subject strike').length>0) {
+                //있음
+                
+                } else {
+                    
             global.linkUrl.push(atag);
             global.nickname.push(nickname)
             global.titleList.push(title);
             global.postNm.push(postNm);
-
+                //없음
+                }
+           
 
            
-            console.log(title)
         })
 
 console.log("request ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
