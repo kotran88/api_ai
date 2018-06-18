@@ -1,17 +1,18 @@
 {
-  "name": "ica.ruliweb",
+  "name": "simple-app",
   "version": "1.0.0",
-  "description": "this is semi project for junggo",
+  "description": "ha",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "jung",
+  "author": "pdjung",
   "license": "ISC",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.2",
-    "firebase": "^4.10.1",
-    "request": "^2.83.0"
+    "firebase": "^4.9.0",
+    "google-assistant": "^0.2.2",
+    "mqtt": "^2.15.1",
+    "public-ip": "^2.4.0"
   }
 }
