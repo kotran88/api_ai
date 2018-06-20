@@ -147,6 +147,33 @@ app.get('/alarming',function(req,res){
 
     
 });
+
+app.get('/success',function(req,res){
+    console.log("press success");
+
+    console.log(req.query.device);
+    var device = req.query.device;
+    var phoneKey=req.query.phoneKey;
+    console.log(phoneKey+"///"+device);
+
+
+    //
+
+    
+    res.type('text/plain');
+    res.send('success presseddeviceId.'+device);
+
+
+    var ref = firebase.database().ref().child('clients').child(phoneKey).child(device).child("record");
+
+    var messageRef= ref;
+  
+    messageRef.update({
+        "record":"pressed!"
+    })
+
+
+})
 app.get('/pressed',function(req,res){
     console.log("pressed come");
     console.log(req.query.device);
@@ -200,7 +227,7 @@ app.get('/registered',function(req,res){
     var ref = firebase.database().ref().child('clients').child(phoneKey);
 
     var messageRef= ref;
-    messageRef.update({flag:"true"})
+    messageRef.update({flag:"true"},{hubId:device})
 
 })
 app.get('/disconnectdeviceId',function(req,res){
