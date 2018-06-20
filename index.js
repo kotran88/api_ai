@@ -7,6 +7,7 @@ var firebase = require('firebase').initializeApp({
 //앱에서 아이디 , 아이피를 주면. 
 //아두이노에서 아이피를 전달하면, 서버에서 앱 아이디를 리턴해줌. 
 //그럼 아두이노에서 callback에서 /LED/전달받은 아이디 이런식으로 구조를 만듬. 
+var request = 	require('request');
 
 var url = require('url');
 const mqtt = require('mqtt');
@@ -151,11 +152,50 @@ app.get('/alarming',function(req,res){
 app.get('/success',function(req,res){
     console.log("press success");
 
+    // sendMessage('a815246b-4f4f-4d63-82ac-9ac3d0440123', 'Hello! this is from node js');
+    var today = new Date();
+    today.setHours(today.getHours()+9);
+    
+    var d = new Date();
+    var days = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
+    var day =  days[d.getDay()];
+
+  
+    var thisday = new Date();
+    var dddd=thisday.toString("hh:mm tt")
+    thisday.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', hour12: true })
+    var month = thisday.getMonth();
+    var date = thisday.getDate();
+    var hour = thisday.getHours();
+    var minute = thisday.getMinutes();
+    var fullyear = thisday.getFullYear();
+    console.log(dddd);
+    console.log("this is the day")
+    // new Date().toString("hh:mm tt")
+    console.log(thisday)
+    console.log(today)
+    console.log(month+1);
+    console.log(date);
+    console.log((hour)+"시");
+    console.log(minute);
+    console.log(fullyear)
+
+
+    var thisisday = fullyear+"년"+(month+1)+"월"+date+"일"+(hour+9)+"시"+minute+"분";
+
     console.log(req.query.device);
     var device = req.query.device;
     var phoneKey=req.query.phoneKey;
+    var appId="";
     console.log(phoneKey+"///"+device);
 
+    var reff = firebase.database().ref().child('clients').child(phoneKey);
+    reff.once('value').then((snap)=>{
+        console.log("this is key"+snap.key);
+        console.log("this is value"+snap.val().appId);
+        appId=snap.val().appId;
+        sendMessage(appId,"알람이 울렸습니다.");
+    })
 
     //
 
@@ -163,13 +203,12 @@ app.get('/success',function(req,res){
     res.type('text/plain');
     res.send('success presseddeviceId.'+device);
 
-
     var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
 
     var messageRef= ref;
   
     messageRef.update({
-        "record":"pressed!"
+        "date":thisisday
     })
 
 
@@ -191,6 +230,37 @@ app.get('/pressed',function(req,res){
 
     
 });
+
+var sendMessage = function(device, message){
+	var restKey = 'Y2U4YWM3MGYtZDdmYS00OWQxLWFhYTAtYjQ1YmI3NjcwMDg0'
+	var appID = "16d1cd65-d8a3-4465-8f59-d0bfd88f966c"
+	request(
+		{
+			method:'POST',
+			uri:'https://onesignal.com/api/v1/notifications',
+			headers: {
+				"authorization": "Basic "+restKey,
+				"content-type": "application/json"
+			},
+			json: true,
+			body:{
+				'app_id': appID,
+				'contents': {en: message},
+                'include_player_ids': Array.isArray(device) ? device : [device],
+                'data': {'abc': '123','test': 'haha'}
+                
+			}
+		},
+		function(error, response, body) {
+			if(!body.errors){
+				console.log(body);
+			}else{
+				console.error('Error:', body.errors);
+			}
+			
+		}
+	);
+}
 
 app.get("/register",function(req,res){
     console.log("register come");
