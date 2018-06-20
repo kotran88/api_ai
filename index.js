@@ -322,8 +322,8 @@ app.get('/pressed',function(req,res){
 });
 
 var sendMessage = function(device, message){
-	var restKey = 'Y2U4YWM3MGYtZDdmYS00OWQxLWFhYTAtYjQ1YmI3NjcwMDg0'
-	var appID = "16d1cd65-d8a3-4465-8f59-d0bfd88f966c"
+	var restKey = 'Zjg5MzhkN2QtMzkzNC00Y2M5LWJkNDQtYjRmNDFhNzM5YzZk'
+	var appID = "d523a5c4-f54f-471d-88fd-51b75c29dbb7"
 	request(
 		{
 			method:'POST',
