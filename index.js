@@ -188,6 +188,7 @@ app.get('/successWifi',function(req,res){
     var appId="";
     console.log(phoneKey+"///"+device);
 
+    var title="";
     var reff = firebase.database().ref().child('clients').child(phoneKey);
     reff.once('value').then((snap)=>{
         console.log("this is key"+snap.key);
@@ -197,9 +198,10 @@ app.get('/successWifi',function(req,res){
         //
         refff.once('value').then((snap)=>{
     
+            title=snap.val().title;
             console.log("this is title : "+snap.val().title)
     
-            sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!(예약)");
+            // sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!(예약)");
     
         })
         
@@ -215,8 +217,9 @@ app.get('/successWifi',function(req,res){
 
     var messageRef= ref;
   
+    console.log("finished"+title);
     messageRef.push({
-        "date":thisisday,"flag":"reservation"
+        "date":thisisday,"flag":"reservation","title":title
     })
    
 
@@ -263,6 +266,7 @@ app.get('/success',function(req,res){
     var appId="";
     console.log(phoneKey+"///"+device);
 
+    var title="";
     var reff = firebase.database().ref().child('clients').child(phoneKey);
     reff.once('value').then((snap)=>{
         console.log("this is key"+snap.key);
@@ -274,6 +278,7 @@ app.get('/success',function(req,res){
     
             console.log("this is title : "+snap.val().title)
     
+            title=snap.val().title;
             sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!");
     
         })
@@ -291,7 +296,7 @@ app.get('/success',function(req,res){
     var messageRef= ref;
   
     messageRef.push({
-        "date":thisisday,"flag":"normal"
+        "date":thisisday,"flag":"reservation","title":title
     })
    
 
