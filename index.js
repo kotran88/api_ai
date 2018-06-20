@@ -164,7 +164,7 @@ app.get('/success',function(req,res){
     res.send('success presseddeviceId.'+device);
 
 
-    var ref = firebase.database().ref().child('clients').child(phoneKey).child(device).child("record");
+    var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
 
     var messageRef= ref;
   
