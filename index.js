@@ -201,8 +201,16 @@ app.get('/successWifi',function(req,res){
             title=snap.val().title;
             console.log("this is title : "+snap.val().title)
     
-            // sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!(예약)");
-    
+            sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!(예약)");
+            var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
+
+            var messageRef= ref;
+          
+            console.log("finished"+title);
+            messageRef.push({
+                "date":thisisday,"flag":"reservation","title":title
+            })
+           
         })
         
         // 
@@ -213,15 +221,7 @@ app.get('/successWifi',function(req,res){
     res.type('text/plain');
     res.send('success presseddeviceId.'+device);
 
-    var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
-
-    var messageRef= ref;
-  
-    console.log("finished"+title);
-    messageRef.push({
-        "date":thisisday,"flag":"reservation","title":title
-    })
-   
+    
 
 
 })
@@ -280,7 +280,13 @@ app.get('/success',function(req,res){
     
             title=snap.val().title;
             sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!");
-    
+            var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
+
+            var messageRef= ref;
+          
+            messageRef.push({
+                "date":thisisday,"flag":"normal","title":title
+            })
         })
         
         // 
@@ -291,13 +297,7 @@ app.get('/success',function(req,res){
     res.type('text/plain');
     res.send('success presseddeviceId.'+device);
 
-    var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
-
-    var messageRef= ref;
-  
-    messageRef.push({
-        "date":thisisday,"flag":"reservation","title":title
-    })
+    
    
 
 
