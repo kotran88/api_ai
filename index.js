@@ -284,6 +284,7 @@ app.get('/success',function(req,res){
 
             var messageRef= ref;
           
+            console.log("title to spread : "+title);
             messageRef.push({
                 "date":thisisday,"flag":"normal","title":title
             })
