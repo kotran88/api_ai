@@ -194,10 +194,17 @@ app.get('/success',function(req,res){
         console.log("this is key"+snap.key);
         console.log("this is value"+snap.val().appId);
         appId=snap.val().appId;
-        sendMessage(appId,"알람이 울렸습니다.");
+        // 
     })
-
+    var refff = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device);
     //
+    refff.once('value').then((snap)=>{
+
+        console.log("this is title : "+snap.val().title)
+
+        sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!");
+
+    })
 
     
     res.type('text/plain');
@@ -207,9 +214,10 @@ app.get('/success',function(req,res){
 
     var messageRef= ref;
   
-    messageRef.update({
+    messageRef.push({
         "date":thisisday
     })
+   
 
 
 })
