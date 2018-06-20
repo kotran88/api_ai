@@ -227,7 +227,7 @@ app.get('/registered',function(req,res){
     var ref = firebase.database().ref().child('clients').child(phoneKey);
 
     var messageRef= ref;
-    messageRef.update({flag:"true"},{"hubId":device})
+    messageRef.update({flag:"true","hubId":device})
 
 })
 app.get('/disconnectdeviceId',function(req,res){
