@@ -148,6 +148,80 @@ app.get('/alarming',function(req,res){
 
     
 });
+app.get('/successWifi',function(req,res){
+    console.log("press success");
+
+    // sendMessage('a815246b-4f4f-4d63-82ac-9ac3d0440123', 'Hello! this is from node js');
+    var today = new Date();
+    today.setHours(today.getHours()+9);
+    
+    var d = new Date();
+    var days = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
+    var day =  days[d.getDay()];
+
+  
+    var thisday = new Date();
+    var dddd=thisday.toString("hh:mm tt")
+    thisday.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', hour12: true })
+    var month = thisday.getMonth();
+    var date = thisday.getDate();
+    var hour = thisday.getHours();
+    var minute = thisday.getMinutes();
+    var fullyear = thisday.getFullYear();
+    console.log(dddd);
+    console.log("this is the day")
+    // new Date().toString("hh:mm tt")
+    console.log(thisday)
+    console.log(today)
+    console.log(month+1);
+    console.log(date);
+    console.log((hour)+"시");
+    console.log(minute);
+    console.log(fullyear)
+
+
+    var thisisday = fullyear+"년"+(month+1)+"월"+date+"일"+(hour+9)+"시"+minute+"분";
+
+    console.log(req.query.device);
+    var device = req.query.device;
+    var phoneKey=req.query.phoneKey;
+    var appId="";
+    console.log(phoneKey+"///"+device);
+
+    var reff = firebase.database().ref().child('clients').child(phoneKey);
+    reff.once('value').then((snap)=>{
+        console.log("this is key"+snap.key);
+        console.log("this is value"+snap.val().appId);
+        appId=snap.val().appId;
+        var refff = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device);
+        //
+        refff.once('value').then((snap)=>{
+    
+            console.log("this is title : "+snap.val().title)
+    
+            sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!(예약)");
+    
+        })
+        
+        // 
+    })
+   
+
+    
+    res.type('text/plain');
+    res.send('success presseddeviceId.'+device);
+
+    var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
+
+    var messageRef= ref;
+  
+    messageRef.push({
+        "date":thisisday,"flag":"reservation"
+    })
+   
+
+
+})
 
 app.get('/success',function(req,res){
     console.log("press success");
@@ -217,7 +291,7 @@ app.get('/success',function(req,res){
     var messageRef= ref;
   
     messageRef.push({
-        "date":thisisday
+        "date":thisisday,"flag":"normal"
     })
    
 
@@ -784,7 +858,7 @@ function getFirebase(val){
             if(day==doc.val()[value].date&&(hour+9)==doc.val()[value].hour&&minute==doc.val()[value].minute){
             console.log("sound alarm!!!!!!!!!!!!!!!"+doc.key);
 
-                client.publish('/ESP8266/pressed', doc.key, function() {
+                client.publish('/ESP8266/ReservationPressed', doc.key, function() {
                     console.log("MMMessage is Reconnecting");
                     
                 });
