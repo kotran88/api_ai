@@ -308,6 +308,7 @@ app.get('/pressed',function(req,res){
     console.log(req.query.device);
     console.log(req.query.phoneKey);
     var device = req.query.device;
+    var phoneKey=req.query.phoneKey;
 
     
     res.type('text/plain');
