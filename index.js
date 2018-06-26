@@ -1,7 +1,7 @@
 
 var firebase = require('firebase').initializeApp({
-    serviceAccount:"./appbomi.json",
-    databaseURL:"https://appbomi.firebaseio.com/"
+    serviceAccount:"./onandoff.json",
+    databaseURL:"https://animaljoker-2c7cd.firebaseio.com"
 })
 
 //앱에서 아이디 , 아이피를 주면. 
