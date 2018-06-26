@@ -306,14 +306,14 @@ app.get('/success',function(req,res){
 app.get('/pressed',function(req,res){
     console.log("pressed come");
     console.log(req.query.device);
-
+    console.log(req.query.phoneKey);
     var device = req.query.device;
 
     
     res.type('text/plain');
     res.send('presseddeviceId.'+device);
    
-    client.publish('/ESP8266/pressed', device, function() {
+    client.publish('/ESP8266/pressed', device+phoneKey, function() {
         console.log("MMMessage is Reconnecting");
         
     });
