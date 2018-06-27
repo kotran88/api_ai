@@ -198,18 +198,19 @@ app.get('/successWifi',function(req,res){
         //
         refff.once('value').then((snap)=>{
     
-            title=snap.val().title;
-            console.log("this is title : "+snap.val().title)
+            console.log(snap.val());
+            // title=snap.val().title;
+            // console.log("this is title : "+snap.val().title)
     
-            sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!(예약)");
-            var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
+            // sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!(예약)");
+            // var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
 
-            var messageRef= ref;
+            // var messageRef= ref;
           
-            console.log("finished"+title);
-            messageRef.push({
-                "date":thisisday,"flag":"reservation","title":title
-            })
+            // console.log("finished"+title);
+            // messageRef.push({
+            //     "date":thisisday,"flag":"reservation","title":title
+            // })
            
         })
         
