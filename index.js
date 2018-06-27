@@ -191,11 +191,13 @@ app.get('/successWifi',function(req,res){
     var title="";
     var reff = firebase.database().ref().child('clients').child(phoneKey);
     reff.once('value').then((snap)=>{
-        console.log("this is key"+snap.key);
+        console.log("this is kkkkkey"+snap.key);
         console.log("this is value"+snap.val().appId);
         appId=snap.val().appId;
         var refff = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device);
         //
+        console.log("this is ref")
+        console.log(reff);
         refff.once('value').then((snap)=>{
     
             console.log(snap.val());
