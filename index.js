@@ -280,18 +280,18 @@ app.get('/success',function(req,res){
         refff.once('value').then((snap)=>{
     
             console.log(snap.val());
-            // console.log("this is title : "+snap.val().title)
+            console.log("this is title : "+snap.val().title)
     
-            // title=snap.val().title;
-            // sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!");
-            // var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
+            title=snap.val().title;
+            sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!");
+            var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
 
-            // var messageRef= ref;
+            var messageRef= ref;
           
-            // console.log("title to spread : "+title);
-            // messageRef.push({
-            //     "date":thisisday,"flag":"normal","title":title
-            // })
+            console.log("title to spread : "+title);
+            messageRef.push({
+                "date":thisisday,"flag":"normal","title":title
+            })
         })
         
         // 
