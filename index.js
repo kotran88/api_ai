@@ -311,6 +311,7 @@ app.get('/pressed',function(req,res){
     console.log("pressed come");
     console.log(req.query.device);
     console.log(req.query.phoneKey);
+    var hubId = req.query.hubId;
     var device = req.query.device;
     var phoneKey=req.query.phoneKey;
 
@@ -318,7 +319,7 @@ app.get('/pressed',function(req,res){
     res.type('text/plain');
     res.send('presseddeviceId.'+device);
    
-    client.publish('/ESP8266/pressed', device+phoneKey, function() {
+    client.publish('/ESP8266/pressed', hubId+device+phoneKey, function() {
         console.log("MMMessage is Reconnecting");
         
     });
