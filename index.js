@@ -228,7 +228,30 @@ app.get('/successWifi',function(req,res){
 
 
 })
+app.get("/failed",function(req,res){
+    var device = req.query.device;
+    var phoneKey=req.query.phoneKey;
+    var appId="";
+    console.log(phoneKey+"///"+device);
 
+    var title="";
+    var reff = firebase.database().ref().child('clients').child(phoneKey);
+    reff.once('value').then((snap)=>{
+        console.log("this is key"+snap.key);
+        console.log("this is value"+snap.val().appId);
+        appId=snap.val().appId;
+        var refff = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device);
+        //
+        refff.once('value').then((snap)=>{
+    
+            console.log(snap.val());
+            console.log("this is title : "+snap.val().title)
+    
+            title=snap.val().title;
+            sendMessage(appId,snap.val().title+" 의 버튼을 누르지 못하였습니다. 다시 시도해주세요.");
+        });
+    });
+})
 app.get('/success',function(req,res){
     console.log("press success");
 
