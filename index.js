@@ -760,19 +760,20 @@ app.get('/getTemperature',function(req,res){
     console.log(fullyear)
 
 
-    var thisisday = (month+1)+"월"+date+"일 "+(hour+9)+"시"+minute+"분";
+    var thisisday = (month+1)+"월 "+date+"일 "+(hour+9)+"시"+minute+"분";
 
     if(req.query.dust==undefined){
         req.query.dust="null";
     }
     console.log(thisisday)
     var messageRef= ref.child(deviceId);
+    var message = {temp:req.query.temp,hum:req.query.hum, updatedtimestamp: thisisday};
     messageRef.child("tempRecord").push(message).then(()=>{
         console.log("temprecord succ");
     }).catch((err)=>{
         console.log("err:"+err);
     });
-    var message = {temp:req.query.temp,hum:req.query.hum, updatedtimestamp: thisisday};
+    
     messageRef.update(message).then(()=>{
         console.log("success");
     }).catch((err)=>{
