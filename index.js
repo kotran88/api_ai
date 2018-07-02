@@ -767,7 +767,11 @@ app.get('/getTemperature',function(req,res){
     }
     console.log(thisisday)
     var messageRef= ref.child(deviceId);
-    messageRef.child("tempRecord").push(message);
+    messageRef.child("tempRecord").push(message).then(()=>{
+        console.log("temprecord succ");
+    }).catch((err)=>{
+        console.log("err:"+err);
+    });
     var message = {temp:req.query.temp,hum:req.query.hum, updatedtimestamp: thisisday};
     messageRef.update(message).then(()=>{
         console.log("success");
