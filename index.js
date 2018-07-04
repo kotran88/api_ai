@@ -760,7 +760,7 @@ app.get('/getTemperature',function(req,res){
     console.log(fullyear)
 
 
-    var thisisday = (month+1)+"월 "+date+"일 "+(hour+9)+"시"+minute+"분";
+    var thisisday = (month+1)+"월 "+date+"일 "+(hour+9)+":"+minute;
 
     if(req.query.dust==undefined){
         req.query.dust="null";
