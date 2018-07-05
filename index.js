@@ -405,6 +405,7 @@ app.get('/disconnected',function(req,res){
     messageRef.update({flag:"false"})
 })
 app.get('/registered',function(req,res){
+    //허브에서 폰키를 받아서 이제 유저의 디비에서 저장. 
     var device=req.query.deviceId;
     var phoneKey=req.query.phoneKey;
 
@@ -415,8 +416,10 @@ app.get('/registered',function(req,res){
     res.send('registered.');
     var ref = firebase.database().ref().child('clients').child(phoneKey);
 
-    var messageRef= ref;
-    messageRef.update({flag:"true","hubId":device})
+    ref.push({
+        flag:"true",hubId:device
+    })
+    
 
 })
 app.get('/disconnectdeviceId',function(req,res){
