@@ -768,19 +768,48 @@ app.get('/getTemperature',function(req,res){
         req.query.dust="null";
     }
     console.log(thisisday)
-    var messageRef= ref.child(deviceId);
-    var message = {temp:req.query.temp,hum:req.query.hum, updatedtimestamp: thisisday};
-    messageRef.child("tempRecord").push(message).then(()=>{
-        console.log("temprecord succ");
-    }).catch((err)=>{
-        console.log("err:"+err);
+    var flag=false;
+    var messageRef= ref.child(deviceId).child('hub');
+    messageRef.once('value').then((snap)=>{
+        console.log("this is key"+snap.key);
+        console.log("this is value"+snap.val());
+        console.log(snap.val());
+        for (val in snap.val()) {
+
+            console.log("value is :"+val);
+            console.log("result isssssss : "+snap.val()[val]);
+            console.log(snap.val()[val]);
+            console.log(snap.val().key);
+            if(snap.val()[val].hubId=='34325'){
+                console.log("발견!"+val);
+                var message = {temp:req.query.temp,hum:req.query.hum, updatedtimestamp: thisisday};
+                messageRef.child(val).child("tempRecord").push(message).then(()=>{
+                    console.log("success");
+                })
+            }
+
+        }
+        // if(snap.val().){
+
+        // }
+        // appId=snap.val().appId;
+        // var refff = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device);
+        // //
+        // refff.once('value').then((snap)=>{
+        // });
     });
+    // var message = {temp:req.query.temp,hum:req.query.hum, updatedtimestamp: thisisday};
+    // messageRef.child("tempRecord").push(message).then(()=>{
+    //     console.log("temprecord succ");
+    // }).catch((err)=>{
+    //     console.log("err:"+err);
+    // });
     
-    messageRef.update(message).then(()=>{
-        console.log("success");
-    }).catch((err)=>{
-        console.log("error"+err);
-    });
+    // messageRef.update(message).then(()=>{
+    //     console.log("success");
+    // }).catch((err)=>{
+    //     console.log("error"+err);
+    // });
 
 })
 
