@@ -414,7 +414,7 @@ app.get('/registered',function(req,res){
     console.log("registered come");
     res.type('text/plain');
     res.send('registered.');
-    var ref = firebase.database().ref().child('clients').child(phoneKey);
+    var ref = firebase.database().ref().child('clients').child(phoneKey).child("hub");
 
     ref.push({
         flag:"true",hubId:device
