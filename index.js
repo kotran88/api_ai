@@ -786,6 +786,7 @@ app.get('/getTemperature',function(req,res){
                 messageRef.child(val).child("tempRecord").push(message).then(()=>{
                     console.log("success");
                 })
+                messageRef.child(val).update(message)
             }
 
         }
