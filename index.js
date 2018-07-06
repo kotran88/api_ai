@@ -730,7 +730,7 @@ app.get('/',function(req,res){
 app.get('/getTemperature',function(req,res){
     console.log(req.query.temp);
     console.log(req.query.hum);
-    
+    var hubId=req.query.hubId;
     var deviceId=req.query.device;
     res.type('text/plain');
     res.send("gettemp!");
@@ -780,7 +780,7 @@ app.get('/getTemperature',function(req,res){
             console.log("result isssssss : "+snap.val()[val]);
             console.log(snap.val()[val]);
             console.log(snap.val().key);
-            if(snap.val()[val].hubId=='34325'){
+            if(snap.val()[val].hubId==hubId){
                 console.log("발견!"+val);
                 var message = {temp:req.query.temp,hum:req.query.hum, updatedtimestamp: thisisday};
                 messageRef.child(val).child("tempRecord").push(message).then(()=>{
