@@ -205,7 +205,7 @@ app.get('/successWifi',function(req,res){
             console.log("this is title : "+snap.val().title)
     
             sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!(예약)");
-            var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
+            var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("Record");
 
             var messageRef= ref;
           
