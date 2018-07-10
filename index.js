@@ -201,18 +201,18 @@ app.get('/successWifi',function(req,res){
         refff.once('value').then((snap)=>{
     
             console.log(snap.val());
-            // title=snap.val().title;
-            // console.log("this is title : "+snap.val().title)
+            title=snap.val().title;
+            console.log("this is title : "+snap.val().title)
     
-            // sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!(예약)");
-            // var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
+            sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!(예약)");
+            var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("record");
 
-            // var messageRef= ref;
+            var messageRef= ref;
           
-            // console.log("finished"+title);
-            // messageRef.push({
-            //     "date":thisisday,"flag":"reservation","title":title
-            // })
+            console.log("finished"+title);
+            messageRef.push({
+                "date":thisisday,"flag":"reservation","title":title
+            })
            
         })
         
@@ -728,8 +728,7 @@ app.get('/',function(req,res){
     
 });
 app.get('/getTemperature',function(req,res){
-    console.log(req.query.temp);
-    console.log(req.query.hum);
+    
     var hubId=req.query.hubId;
     var deviceId=req.query.device;
     res.type('text/plain');
@@ -750,16 +749,12 @@ app.get('/getTemperature',function(req,res){
     var hour = thisday.getHours();
     var minute = thisday.getMinutes();
     var fullyear = thisday.getFullYear();
-    console.log(dddd);
-    console.log("this is the day")
-    // new Date().toString("hh:mm tt")
-    console.log(thisday)
-    console.log(today)
-    console.log(month+1);
-    console.log(date);
-    console.log((hour)+"시");
-    console.log(minute);
-    console.log(fullyear)
+    
+    console.log("getTemperature")
+    console.log(req.query.temp);
+    console.log(req.query.hum);
+    console.log(req.query.hubId);
+    console.log(req.query.device);
 
 
     var thisisday = (month+1)+"월 "+date+"일 "+(hour+9)+":"+minute;
@@ -770,6 +765,7 @@ app.get('/getTemperature',function(req,res){
     console.log(thisisday)
     var flag=false;
     var messageRef= ref.child(deviceId).child('hub');
+    console.log("messageref");
     messageRef.once('value').then((snap)=>{
         console.log("this is key"+snap.key);
         console.log("this is value"+snap.val());
