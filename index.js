@@ -208,10 +208,12 @@ app.get('/successWifi',function(req,res){
             var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("Record");
 
             var messageRef= ref;
-          
-            console.log("finished"+title);
-            messageRef.push({
-                "date":thisisday,"flag":"reservation","title":title
+            var myRef = messageRef.push();
+            var key = myRef.key;
+            console.log("title to spread : "+title);
+            console.log("push key is : "+key);
+            ref.child(key).update({
+                "id":key,"date":thisisday,"flag":"reservation","title":title
             })
            
         })
@@ -310,11 +312,14 @@ app.get('/success',function(req,res){
             var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("Record");
 
             var messageRef= ref;
-          
+            var myRef = messageRef.push();
+            var key = myRef.key;
             console.log("title to spread : "+title);
-            messageRef.push({
-               "id":messageRef.key, "date":thisisday,"flag":"normal","title":title
+            console.log("push key is : "+key);
+            ref.child(key).update({
+                "id":key,"date":thisisday,"flag":"normal","title":title
             })
+           
         })
         
         // 
