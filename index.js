@@ -389,10 +389,14 @@ var sendMessage = function(device, message){
 app.get("/register",function(req,res){
     console.log("register come");
     var device = req.query.device;
+    var hubId=req.query.hubId;
+    console.log(device);
+    console.log(hubId);
     res.type('text/plain');
     res.send('register come.');
-   
-    client.publish('/ESP8266/register', device, function() {
+
+    
+    client.publish('/ESP8266/register', hubId+"/"+device, function() {
         console.log("MMMessage is Reconnecting");
         
     });
@@ -419,6 +423,9 @@ app.get('/registered',function(req,res){
     console.log("registered come");
     res.type('text/plain');
     res.send('registered.');
+
+    
+
     var ref = firebase.database().ref().child('clients').child(phoneKey).child("hub");
 
     var message={flag:"true",hubId:device}
