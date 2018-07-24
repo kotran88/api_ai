@@ -335,6 +335,12 @@ app.get('/success',function(req,res){
 
 
 })
+app.get('/pressedTest',function(req,res){
+    client.publish('/ESP8266/pressed', "gogo", function() {
+        console.log("MMMessage is Reconnecting");
+        
+    });
+})
 app.get('/pressed',function(req,res){
     console.log("pressed come");
     console.log(req.query.device);
