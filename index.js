@@ -15,6 +15,8 @@ const mqtt = require('mqtt');
 // const client = mqtt.connect("m11.cloudmqtt.com");
 const publicIp = require('public-ip');
 
+var baseRef = firebase.database().ref();
+
 var ref = firebase.database().ref().child('clients');
 
 var logsRef = ref.child('logs');
@@ -337,11 +339,14 @@ app.get('/success',function(req,res){
 })
 app.get('/pressedTest',function(req,res){
 
-    
-    
+    //hubId == 015EF
+    //phoneKey == 
+    var hubId=req.query.hubId;
+    var phoneKey=req.query.phoneKey;
+    console.log("pressedTest come!!!"+hubId+"////"+phoneKey);
     res.type('text/plain');
-    res.send('pressedd');
-    client.publish('/ESP8266/pressed', "gogo", function() {
+    res.send('pressedTest'+hubId+"////"+phoneKey);
+    client.publish('/ESP8266/pressed', hubId+phoneKey, function() {
         console.log("MMMessage is Reconnecting");
         
     });
@@ -397,22 +402,7 @@ var sendMessage = function(device, message){
 	);
 }
 
-app.get("/register",function(req,res){
-    console.log("register come");
-    var device = req.query.device;
-    var hubId=req.query.hubId;
-    console.log(device);
-    console.log(hubId);
-    res.type('text/plain');
-    res.send('register come.');
 
-    
-    client.publish('/ESP8266/register', hubId+"/"+device, function() {
-        console.log("MMMessage is Reconnecting");
-        
-    });
-
-})
 app.get('/disconnected',function(req,res){
     var phoneKey=req.query.phoneKey;
     console.log(phoneKey);
@@ -424,6 +414,27 @@ app.get('/disconnected',function(req,res){
     var messageRef= ref;
     messageRef.update({flag:"false"})
 })
+app.get("/register",function(req,res){
+    //허브 연결됨, 허브 디바이스로 핸드폰 고유 아이디와 허브의 아이디 전송. 
+    
+    console.log("register come");
+    var device = req.query.device;
+    //356356080859149
+
+    var hubId=req.query.hubId;
+    console.log(device);
+    console.log(hubId);
+    res.type('text/plain');
+    res.send('register come.');
+
+    
+    client.publish('/ESP8266/register', hubId+"/"+device, function() {
+        console.log("MMMessage is Reconnecting");
+        //허브에서 이제 "/registered "로 허브아이디와 핸드폰 아이디를 전송. 
+    });
+
+})
+
 app.get('/registered',function(req,res){
     //허브에서 폰키를 받아서 이제 유저의 디비에서 저장. 
     var device=req.query.deviceId;
@@ -433,14 +444,17 @@ app.get('/registered',function(req,res){
     console.log(phoneKey);
     console.log("registered come");
     res.type('text/plain');
-    res.send('registered.');
+    res.send('user registered.');
 
     
 
-    var ref = firebase.database().ref().child('clients').child(phoneKey);
+    var ref = firebase.database().ref().child('hubConnectivity').child(device);
+    var ref1 = firebase.database().ref().child('clients').child(phoneKey).child("hub").child(device);
 
-    var message={flag:"true",hubId:device}
+    var message={"userConfirmed:":"true"}
+    var message1={"connectedFlag:":"true"}
     ref.update(message);
+    ref1.update(message1);
     
 
 })
@@ -578,11 +592,33 @@ res.send('detected.');
 app.get('/deviceId',function(req,res){
     //device가 와이파이에 연결이 완료됨. 따라서 앱에서 이신호를 받아야하는 부분까지. 
 
+    //디비에 기기가 와이파이에 연결되었다고 알려야함. 
+    //hub - 32323 - connectivity : true
     var device = req.query.id;
     console.log("received Id : "+device);
     var messageRef= ref;
     res.type('text/plain');
     res.send('deviceId.');
+
+    baseRef.child('hubConnectivity').child(device);
+
+    baseRef.update({
+        flag:"true"
+    })
+   
+/**
+ * mMessageDatabaseReference4 = mFirebaseDatabase.getReference("hub").child(hubId);
+//                SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm");//dd/MM/yyyy
+//                Date now = new Date();
+//                String strDate = sdfDate.format(now);
+//                HashMap<String, Object> result = new HashMap<>();
+//                result.put("connectedFlag", "true");
+//                result.put("connectedTo", id);
+//                result.put("connectedDate", strDate);
+//
+//                mMessageDatabaseReference4.updateChildren(result);
+ */
+
     // setTimeout(()=>{
 
     //     messageRef.once('value').then((snapshot) => {
