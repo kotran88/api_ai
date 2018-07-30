@@ -630,7 +630,7 @@ app.get('/deviceId',function(req,res){
         connectedFlag:"true",
         connectedDate: thisisday,
         userConfirmed:"notYet",
-        
+        test:"haha"
 
     })
    
