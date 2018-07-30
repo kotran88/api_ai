@@ -447,6 +447,7 @@ app.get('/registered',function(req,res){
     res.send('user registered.');
 
     
+    
 
     var ref = firebase.database().ref().child('hubConnectivity').child(device);
     var ref1 = firebase.database().ref().child('clients').child(phoneKey).child("hub").child(device);
@@ -599,12 +600,38 @@ app.get('/deviceId',function(req,res){
     var messageRef= ref;
     res.type('text/plain');
     res.send('deviceId.');
+    var today = new Date();
+    today.setHours(today.getHours()+9);
+    console.log("1111");
+    var d = new Date();
+    var days = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
+    var day =  days[d.getDay()];
 
-    baseRef.child('hubConnectivity').child(device);
+    console.log("2222");
+    var thisday = new Date();
+    var dddd=thisday.toString("hh:mm tt")
+    thisday.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', hour12: true })
+    var month = thisday.getMonth();
+    var date = thisday.getDate();
+    var hour = thisday.getHours();
+    var minute = thisday.getMinutes();
+    var fullyear = thisday.getFullYear();
+    
+    
 
-    baseRef.update({
-        flag:"true",
-        fflag:"gogo"
+    console.log("3333");
+    var thisisday = (month+1)+"월 "+date+"일 "+(hour+9)+":"+minute;
+    
+    console.log("date is : "+thisisday);
+    var message=baseRef.child('hubConnectivity').child(device);
+
+
+    message.update({
+        connectedFlag:"true",
+        connectedDate: thisisday,
+        userConfirmed:"notYet",
+        
+
     })
    
 /**
