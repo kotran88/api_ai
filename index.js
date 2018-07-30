@@ -638,18 +638,85 @@ app.get('/deviceId',function(req,res){
     
     console.log("date issssss : "+thisisday);
     var message=baseRef.child('hubConnectivity').child(device);
+    
+
+    var flag=false;
+    var phoneKey="";
+    message.once('value').then((snapshot) => {
+                var values=snapshot.val()
+        
+            // Traverse through all users to check whether the user is eligible to get discount.
+            for (val in values) 
+            {
+                console.log(val);
+                if(val=="connectedTo"){
 
 
-    message.update({
-        connectedFlag:"true",
-        connectedDate: thisisday,
-        userConfirmed:"notYet"
+                    phoneKey=values[val];
+                    console.log("connectedTo 이므로 flag 변경")
+                    flag=true;
+                }
+                
+            }
 
-    }).then(()=>{
-        console.log("updated completed");
-    }).catch((err)=>{
-        console.log("error:"+err);
-    });
+
+            if(flag){
+
+                console.log("flag is true and phonekey is : "+phoneKey);
+                var message2=baseRef.child('clients').child(phoneKey).child("hub").child(device);
+                message2.update({
+                    connectedFlag:"true",
+                    connectedDate: thisisday,
+                    userConfirmed:"true"
+            
+                }).then(()=>{
+                    console.log("updated completed");
+                }).catch((err)=>{
+                    console.log("error:"+err);
+                });
+
+                console.log("이미 연결되었으므로 user confirmed true");
+                message.update({
+                    connectedFlag:"true",
+                    connectedDate: thisisday,
+                    userConfirmed:"true"
+            
+                }).then(()=>{
+                    console.log("updated completed");
+                }).catch((err)=>{
+                    console.log("error:"+err);
+                });
+            }else{
+                console.log("연결 안되어있었으므로 false;")
+                var message2=baseRef.child('clients').child(phoneKey).child(device);
+                message2.update({
+                    connectedFlag:"true",
+                    connectedDate: thisisday,
+                    userConfirmed:"notYet"
+            
+                }).then(()=>{
+                    console.log("updated completed");
+                }).catch((err)=>{
+                    console.log("error:"+err);
+                });
+
+                message.update({
+                    connectedFlag:"true",
+                    connectedDate: thisisday,
+                    userConfirmed:"notYet"
+            
+                }).then(()=>{
+                    console.log("updated completed");
+                }).catch((err)=>{
+                    console.log("error:"+err);
+                });
+            }
+
+
+        });
+
+        
+    
    
 /**
  * mMessageDatabaseReference4 = mFirebaseDatabase.getReference("hub").child(hubId);
