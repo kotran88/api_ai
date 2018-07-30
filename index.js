@@ -603,7 +603,8 @@ app.get('/deviceId',function(req,res){
     baseRef.child('hubConnectivity').child(device);
 
     baseRef.update({
-        flag:"true"
+        flag:"true",
+        fflag:"gogo"
     })
    
 /**
