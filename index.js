@@ -622,7 +622,7 @@ app.get('/deviceId',function(req,res){
     console.log("3333");
     var thisisday = (month+1)+"월 "+date+"일 "+(hour+9)+":"+minute;
     
-    console.log("date is : "+thisisday);
+    console.log("date issssss : "+thisisday);
     var message=baseRef.child('hubConnectivity').child(device);
 
 
@@ -632,7 +632,11 @@ app.get('/deviceId',function(req,res){
         userConfirmed:"notYet",
         test:"haha"
 
-    })
+    }).then(()=>{
+        console.log("updated completed");
+    }).catch((err)=>{
+        console.log("error:"+err);
+    });
    
 /**
  * mMessageDatabaseReference4 = mFirebaseDatabase.getReference("hub").child(hubId);
