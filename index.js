@@ -629,8 +629,7 @@ app.get('/deviceId',function(req,res){
     message.update({
         connectedFlag:"true",
         connectedDate: thisisday,
-        userConfirmed:"notYet",
-        test:"haha"
+        userConfirmed:"notYet"
 
     }).then(()=>{
         console.log("updated completed");
