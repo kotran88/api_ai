@@ -461,8 +461,22 @@ app.get('/registered',function(req,res){
 })
 app.get('/disconnectdeviceId',function(req,res){
     var device = req.query.id;
+    var hubId=device.split("/")[0];
+    var phoneKey=device.split("/")[1];
+
+    console.log("hub and phoneKey"+hubId+"////"+phoneKey);
+
+    var ref = firebase.database().ref().child('hubConnectivity').child(hubId);
+    var ref1 = firebase.database().ref().child('clients').child(phoneKey).child("hub").child(hubId);
+
+    var message1={"connectedFlag":"false"}
+    ref.update(message1);
+    ref1.update(message1);
+
     console.log("received Id is! : "+device);
     var messageRef= ref;
+
+
     res.type('text/plain');
     res.send('disconnectdeviceId.');
     client.publish('/ESP8266/disconnect', device, function() {
