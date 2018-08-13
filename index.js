@@ -1056,16 +1056,17 @@ function getFirebase(val){
   console.log(today.getHours);
   console.log(today.getMinutes);
     var thisday = new Date();
-    var dddd=thisday.toString("hh:mm tt")
-    thisday.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', hour12: true })
     thisday.setHours(thisday.getHours()+9);
+    thisday.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', hour12: true })
     var month = thisday.getMonth();
     var date = thisday.getDate();
     var hour = thisday.getHours();
     var minute = thisday.getMinutes();
     var fullyear = thisday.getFullYear();
-    console.log(dddd);
-    console.log("seize this is the day")
+    console.log(date);
+    console.log(hour);
+    console.log(minute);
+    console.log("seize this is the dayyyyyyyyyyyy")
     // new Date().toString("hh:mm tt")
     console.log(thisday)
     console.log(today)
