@@ -1068,9 +1068,9 @@ function getFirebase(val){
     console.log(today)
 
     console.log(month+1);
-    console.log("데이트 : "+thisday.getDate);
-    console.log((thisday.getHours)+"시");
-    console.log(thisday.getMinutes);
+    console.log("데이트 : "+today.getDate);
+    console.log((today.getHours)+"시");
+    console.log(today.getMinutes);
     console.log(fullyear)
 
     let secondRef=  ref.child(val+'/reservation').once('value');
@@ -1092,14 +1092,14 @@ function getFirebase(val){
             
 
             console.log(thisday)
-    console.log(thisday)
+    console.log(today)
 
     console.log(month+1);
-    console.log("데이트 : "+thisday.getDate.toString);
-    console.log((thisday.getHours)+"시");
-    console.log(thisday.getMinutes);
+    console.log("데이트 : "+today.getDate.toString);
+    console.log((today.getHours)+"시");
+    console.log(today.getMinutes);
             console.log("new day : ");
-            console.log(thisday.getDay.toString);
+            console.log(today.getDay.toString);
             console.log(hour+9);
             if(day==doc.val()[value].date&&(hour+9)==doc.val()[value].hour&&minute==doc.val()[value].minute){
             console.log("sound alarm!!!!!!!!!!!!!!!"+doc.key);
