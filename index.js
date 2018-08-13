@@ -1066,10 +1066,11 @@ function getFirebase(val){
     // new Date().toString("hh:mm tt")
     console.log(thisday)
     console.log(today)
+
     console.log(month+1);
-    console.log("데이트 : "+date);
-    console.log((hour)+"시");
-    console.log(minute);
+    console.log("데이트 : "+today.getDate);
+    console.log((today.getHours)+"시");
+    console.log(today.getMinutes);
     console.log(fullyear)
 
     let secondRef=  ref.child(val+'/reservation').once('value');
@@ -1088,15 +1089,15 @@ function getFirebase(val){
             console.log(doc.val()[value].minute);
             console.log("value to compare");
             console.log("judging to send:"+doc.key);
-            console.log(day);
-            console.log(d.getDate);
-            console.log(hour);
-            console.log(minute);
+            
 
-            if(hour>=15){
-                day=days[d.getDate+1];
-            }
-            console.log(days);
+            console.log(thisday)
+    console.log(today)
+
+    console.log(month+1);
+    console.log("데이트 : "+today.getDate);
+    console.log((today.getHours)+"시");
+    console.log(today.getMinutes);
             console.log("new day : ");
             console.log(day);
             console.log(hour+9);
