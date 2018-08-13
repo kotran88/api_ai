@@ -638,7 +638,6 @@ app.get('/deviceId',function(req,res){
     
     console.log("date issssss : "+thisisday);
     var message=baseRef.child('hubConnectivity').child(device);
-    
 
     var flag=false;
     var phoneKey="";
@@ -1093,6 +1092,12 @@ function getFirebase(val){
             console.log(hour);
             console.log(minute);
 
+            if(hour>=15){
+                day=days[d.getDate+1];
+            }
+            console.log("new day : ");
+            console.log(day);
+            console.log(hour+9);
             if(day==doc.val()[value].date&&(hour+9)==doc.val()[value].hour&&minute==doc.val()[value].minute){
             console.log("sound alarm!!!!!!!!!!!!!!!"+doc.key);
 
