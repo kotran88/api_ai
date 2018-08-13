@@ -1071,7 +1071,7 @@ function getFirebase(val){
     console.log(today)
 
     console.log(month+1);
-    console.log("데이트 : "+thisday.getDate);
+    console.log("데이트ddddd : "+thisday.getDate);
     console.log((thisday.getHours)+"시");
     console.log(thisday.getMinutes);
 
