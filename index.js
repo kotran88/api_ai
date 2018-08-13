@@ -1052,9 +1052,9 @@ function getFirebase(val){
     var days = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
     var day =  days[today.getDay()];
 
-    console.log("this is day : "+day);
-  console.log(today.getHours);
-  console.log(today.getMinutes);
+    console.log("this is dayyyyyyyy : "+day);
+  console.log(today.getHours());
+  console.log(today.getMinutes());
     var thisday = new Date();
     thisday.setHours(thisday.getHours()+9);
     thisday.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', hour12: true })
@@ -1140,37 +1140,7 @@ function getFirebase(val){
 function intervalFunc() {
 
     console.log("intervalFunc")
-    var today = new Date();
-    today.setHours(today.getHours()+9);
-    
-    var d = new Date();
-    var days = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
-    var day =  days[d.getDay()];
-
-  
-    var thisday = new Date();
-    var dddd=thisday.toString("hh:mm tt")
-    thisday.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', hour12: true })
-    var month = thisday.getMonth();
-    var date = thisday.getDate();
-    var hour = thisday.getHours();
-    var minute = thisday.getMinutes();
-    var fullyear = thisday.getFullYear();
-    console.log(dddd);
-    console.log("seize this is the day")
-    // new Date().toString("hh:mm tt")
-    console.log(thisday)
-    console.log(today)
-    console.log(month+1);
-    console.log("데이트 : "+date);
-    console.log((hour)+"시");
-    console.log(minute);
-    console.log(fullyear)
-
-
-    var thisisday = fullyear+"년"+(month+1)+"월"+date+"일"+(hour+9)+"시"+minute+"분"+day;
-    console.log("this is the dayyyyy");
-    console.log(thisisday);
+   
     var ref = firebase.database().ref().child('clients');
 
     var messageRef= ref;
