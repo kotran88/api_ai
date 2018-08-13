@@ -1050,8 +1050,9 @@ function getFirebase(val){
     
     var d = new Date();
     var days = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
-    var day =  days[d.getDay()];
+    var day =  days[today.getDay()];
 
+    console.log("this is day : "+day);
   
     var thisday = new Date();
     var dddd=thisday.toString("hh:mm tt")
@@ -1068,10 +1069,11 @@ function getFirebase(val){
     console.log(today)
 
     console.log(month+1);
-    console.log("데이트 : "+today.getDgate);
+    console.log("데이트 : "+today.getDate);
     console.log((today.getHours)+"시");
     console.log(today.getMinutes);
 
+    console.log(days);
     console.log(today.getDay);
     console.log(today.getDate);
     let secondRef=  ref.child(val+'/reservation').once('value');
