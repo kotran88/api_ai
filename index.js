@@ -1057,6 +1057,7 @@ function getFirebase(val){
     var thisday = new Date();
     var dddd=thisday.toString("hh:mm tt")
     thisday.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', hour12: true })
+    thisday.setHours(thisday.getHours()+9);
     var month = thisday.getMonth();
     var date = thisday.getDate();
     var hour = thisday.getHours();
@@ -1069,13 +1070,17 @@ function getFirebase(val){
     console.log(today)
 
     console.log(month+1);
-    console.log("데이트 : "+today.getDate);
-    console.log((today.getHours)+"시");
-    console.log(today.getMinutes);
+    console.log("데이트 : "+thisday.getDate);
+    console.log((thisday.getHours)+"시");
+    console.log(thisday.getMinutes);
 
     console.log(days);
-    console.log(today.getDay);
-    console.log(today.getDate);
+    console.log(thisdaytoday.getDay);
+    console.log(thisday.getDate);
+
+    console.log(date);
+    console.log(hour);
+    console.log(minute);
     let secondRef=  ref.child(val+'/reservation').once('value');
     return secondRef.then(function(querySnapshot) {
      var results = [];
