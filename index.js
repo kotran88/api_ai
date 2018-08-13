@@ -1068,11 +1068,12 @@ function getFirebase(val){
     console.log(today)
 
     console.log(month+1);
-    console.log("데이트 : "+today.getDate);
+    console.log("데이트 : "+today.getDgate);
     console.log((today.getHours)+"시");
     console.log(today.getMinutes);
-    console.log(fullyear)
 
+    console.log(today.getDay);
+    console.log(today.getDate);
     let secondRef=  ref.child(val+'/reservation').once('value');
     return secondRef.then(function(querySnapshot) {
      var results = [];
