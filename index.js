@@ -1076,7 +1076,7 @@ function getFirebase(val){
     console.log(thisday.getMinutes);
 
     console.log(days);
-    console.log(thisdaytoday.getDay);
+    console.log(thisday.getDay);
     console.log(thisday.getDate);
 
     console.log(date);
