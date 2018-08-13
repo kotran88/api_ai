@@ -1089,12 +1089,14 @@ function getFirebase(val){
             console.log("value to compare");
             console.log("judging to send:"+doc.key);
             console.log(day);
+            console.log(d.getDate);
             console.log(hour);
             console.log(minute);
 
             if(hour>=15){
                 day=days[d.getDate+1];
             }
+            console.log(days);
             console.log("new day : ");
             console.log(day);
             console.log(hour+9);
