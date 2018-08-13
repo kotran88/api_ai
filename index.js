@@ -1053,7 +1053,8 @@ function getFirebase(val){
     var day =  days[today.getDay()];
 
     console.log("this is day : "+day);
-  
+  console.log(today.getHours);
+  console.log(today.getMinutes);
     var thisday = new Date();
     var dddd=thisday.toString("hh:mm tt")
     thisday.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', hour12: true })
@@ -1167,7 +1168,7 @@ function intervalFunc() {
 
 
     var thisisday = fullyear+"년"+(month+1)+"월"+date+"일"+(hour+9)+"시"+minute+"분"+day;
-    console.log("this is the day");
+    console.log("this is the dayyyyy");
     console.log(thisisday);
     var ref = firebase.database().ref().child('clients');
 
