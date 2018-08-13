@@ -1105,13 +1105,10 @@ function getFirebase(val){
     console.log(today)
 
     console.log(month+1);
-    console.log("데이트 : "+today.getDate.toString);
-    console.log((today.getHours)+"시");
-    console.log(today.getMinutes);
-            console.log("new day : ");
-            console.log(today.getDay.toString);
-            console.log(hour+9);
-            if(day==doc.val()[value].date&&(hour+9)==doc.val()[value].hour&&minute==doc.val()[value].minute){
+    console.log("this is dayyyyyyyyxxxxx : "+day);
+    console.log(today.getHours());
+    console.log(today.getMinutes());
+            if(day==doc.val()[value].date&&today.getHours()==doc.val()[value].hour&&today.getMinutes()==doc.val()[value].minute){
             console.log("sound alarm!!!!!!!!!!!!!!!"+doc.key);
 
                 client.publish('/ESP8266/ReservationPressed', doc.key, function() {
