@@ -337,6 +337,20 @@ app.get('/success',function(req,res){
 
 
 })
+app.get('/pressedTestOff',function(req,res){
+
+    //hubId == 015EF
+    //phoneKey == 
+    var hubId=req.query.hubId;
+    var phoneKey=req.query.phoneKey;
+    console.log("pressedTest come!!!"+hubId+"////"+phoneKey);
+    res.type('text/plain');
+    res.send('pressedTestOff'+hubId+"////"+phoneKey);
+    client.publish('/ESP8266/pressedOff', hubId+phoneKey, function() {
+        console.log("MMMessage is Reconnecting");
+        
+    });
+})
 app.get('/pressedTest',function(req,res){
 
     //hubId == 015EF
