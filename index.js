@@ -310,7 +310,7 @@ app.get('/success',function(req,res){
             console.log(snap.val());
             console.log("this is title : "+snap.val().title)
     
-            title=snap.val().title;
+            title=snap.val().deviceName;
             sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!");
             var ref = firebase.database().ref().child('clients').child(phoneKey).child("hub").child(device).child("Record");
 
@@ -318,7 +318,7 @@ app.get('/success',function(req,res){
             var myRef = messageRef.push();
             var key = myRef.key;
             console.log("title to spread : "+title);
-            console.log("push key is : "+key);
+            console.log("pppppppppush key is : "+key);
             ref.child(key).update({
                 "id":key,"date":thisisday,"flag":"normal","title":title
             })
@@ -1341,7 +1341,7 @@ function intervalFunc() {
 var server = app.listen(process.env.PORT || 13145, function () {
     var port = server.address().port;
     console.log("Express is working on port " + port);
-    intervalFunc();
+    // intervalFunc();
 
     setInterval(intervalFunc, 1000*60);
   });
