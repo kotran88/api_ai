@@ -1115,6 +1115,8 @@ function getFirebase(val){
             console.log("judging to send:"+doc.key);
             
 
+            var flag= doc.val()[value].flag;
+            console.log("on or off : "+flag);
             console.log(thisday)
     console.log(today)
 
@@ -1125,10 +1127,18 @@ function getFirebase(val){
             if(day==doc.val()[value].date&&today.getHours()==doc.val()[value].hour&&today.getMinutes()==doc.val()[value].minute){
             console.log("sound alarm!!!!!!!!!!!!!!!"+doc.key);
 
+            if(flag=="on"){
                 client.publish('/ESP8266/ReservationPressed', doc.key, function() {
                     console.log("MMMessage is Reconnecting");
                     
                 });
+            }else if(flag=="off"){
+                client.publish('/ESP8266/ReservationPressedOff', doc.key, function() {
+                    console.log("MMMessage is Reconnecting");
+                    
+                });
+            }
+                
                 }
 
 
