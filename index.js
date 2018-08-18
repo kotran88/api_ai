@@ -188,6 +188,7 @@ app.get('/successWifi',function(req,res){
     var device = req.query.device;
     var phoneKey=req.query.phoneKey;
     var appId="";
+    var onoff=req.query.onoff;
     console.log(phoneKey+"///"+device);
 
     var title="";
@@ -196,7 +197,7 @@ app.get('/successWifi',function(req,res){
         console.log("this is kkkkkey"+snap.key);
         console.log("this is value"+snap.val().appId);
         appId=snap.val().appId;
-        var refff = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device);
+        var refff = firebase.database().ref().child('clients').child(phoneKey).child("hub").child(device);
         //
         console.log("this is ref")
         console.log(reff);
@@ -207,7 +208,7 @@ app.get('/successWifi',function(req,res){
             console.log("this is title : "+snap.val().title)
     
             sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!(예약)");
-            var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("Record");
+            var ref = firebase.database().ref().child('clients').child(phoneKey).child("hub").child(device).child("Record");
 
             var messageRef= ref;
             var myRef = messageRef.push();
@@ -215,7 +216,7 @@ app.get('/successWifi',function(req,res){
             console.log("title to spread : "+title);
             console.log("push key is : "+key);
             ref.child(key).update({
-                "id":key,"date":thisisday,"flag":"reservation","title":title
+                "id":key,"date":thisisday,"flag":"reservation","title":title,"flag":onoff
             })
            
         })
@@ -302,7 +303,7 @@ app.get('/success',function(req,res){
         console.log("this is key"+snap.key);
         console.log("this is value"+snap.val().appId);
         appId=snap.val().appId;
-        var refff = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device);
+        var refff = firebase.database().ref().child('clients').child(phoneKey).child("hub").child(device);
         //
         refff.once('value').then((snap)=>{
     
@@ -311,7 +312,7 @@ app.get('/success',function(req,res){
     
             title=snap.val().title;
             sendMessage(appId,snap.val().title+" 의 버튼이 눌러졌습니다!");
-            var ref = firebase.database().ref().child('clients').child(phoneKey).child("devices").child(device).child("Record");
+            var ref = firebase.database().ref().child('clients').child(phoneKey).child("hub").child(device).child("Record");
 
             var messageRef= ref;
             var myRef = messageRef.push();
