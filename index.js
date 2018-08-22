@@ -1066,9 +1066,7 @@ function getFirebase(val){
     var days = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
     var day =  days[today.getDay()];
 
-    console.log("this is dayyyyyyyy : "+day);
-  console.log(today.getHours());
-  console.log(today.getMinutes());
+  
     var thisday = new Date();
     thisday.setHours(thisday.getHours()+9);
     thisday.toLocaleString('ko-KR', { hour: 'numeric', minute: 'numeric', hour12: true })
@@ -1077,26 +1075,7 @@ function getFirebase(val){
     var hour = thisday.getHours();
     var minute = thisday.getMinutes();
     var fullyear = thisday.getFullYear();
-    console.log(date);
-    console.log(hour);
-    console.log(minute);
-    console.log("seize this is the dayyyyyyyyyyyy")
-    // new Date().toString("hh:mm tt")
-    console.log(thisday)
-    console.log(today)
-
-    console.log(month+1);
-    console.log("데이트ddddd : "+thisday.getDate);
-    console.log((thisday.getHours)+"시");
-    console.log(thisday.getMinutes);
-
-    console.log(days);
-    console.log(thisday.getDay);
-    console.log(thisday.getDate);
-
-    console.log(date);
-    console.log(hour);
-    console.log(minute);
+   
     let secondRef=  ref.child(val+'/reservation').once('value');
     return secondRef.then(function(querySnapshot) {
      var results = [];
@@ -1105,27 +1084,14 @@ function getFirebase(val){
         console.log(doc.key); //0CB2B77BB2BB
         console.log(doc.val());
         for(let value in doc.val()){
-            console.log("going marry")
-            console.log(value);
-            console.log(doc.val()[value].count);
-            console.log(doc.val()[value].date);
-            console.log(doc.val()[value].hour);
-            console.log(doc.val()[value].minute);
-            console.log("value to compare");
             console.log("judging to send:"+doc.key);
             
 
             var flag= doc.val()[value].flag;
             console.log("on or off : "+flag);
-            console.log(thisday)
-    console.log(today)
 
-    console.log(month+1);
-    console.log("this is dayyyyyyyyxxxxx : "+day);
-    console.log(today.getHours());
-    console.log(today.getMinutes());
             if(day==doc.val()[value].date&&today.getHours()==doc.val()[value].hour&&today.getMinutes()==doc.val()[value].minute){
-            console.log("sound alarm!!!!!!!!!!!!!!!"+doc.key);
+            console.log(flag+"sound alarm!!!!!!!!!!!!!!!"+doc.key);
 
             if(flag=="on"){
                 client.publish('/ESP8266/ReservationPressed', doc.key, function() {
@@ -1340,7 +1306,7 @@ function intervalFunc() {
 var server = app.listen(process.env.PORT || 13145, function () {
     var port = server.address().port;
     console.log("Express is working on port " + port);
-    // intervalFunc();
+    intervalFunc();
 
     setInterval(intervalFunc, 1000*60);
   });
