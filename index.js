@@ -1082,7 +1082,6 @@ function getFirebase(val){
      querySnapshot.forEach(function(doc) {
         console.log("this is first doc"+val) //356356080859149
         console.log(doc.key); //0CB2B77BB2BB
-        console.log(doc.val());
         for(let value in doc.val()){
             console.log("judging to send:"+doc.key);
             
@@ -1090,6 +1089,7 @@ function getFirebase(val){
             var flag= doc.val()[value].flag;
             console.log("on or off : "+flag);
 
+            console.log("date : "+day+"/"+today.getHours+"///"+today.getMinutes);
             if(day==doc.val()[value].date&&today.getHours()==doc.val()[value].hour&&today.getMinutes()==doc.val()[value].minute){
             console.log(flag+"sound alarm!!!!!!!!!!!!!!!"+doc.key);
 
