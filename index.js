@@ -1089,7 +1089,7 @@ function getFirebase(val){
             var flag= doc.val()[value].flag;
             console.log("on or off : "+flag);
 
-            console.log("date : "+day+"/"+today.getHours+"///"+today.getMinutes);
+            console.log("date : "+day+"/"+today.getHours()+"///"+today.getMinutes());
             if(day==doc.val()[value].date&&today.getHours()==doc.val()[value].hour&&today.getMinutes()==doc.val()[value].minute){
             console.log(flag+"sound alarm!!!!!!!!!!!!!!!"+doc.key);
 
