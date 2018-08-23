@@ -312,7 +312,7 @@ app.get('/success',function(req,res){
             console.log("this is title : "+snap.val().deviceName)
     
             title=snap.val().deviceName;
-            if(alarmFlag=="true"){
+            if(alarmFlag=="on"){
                 sendMessage(appId,snap.val().deviceName+" 의 버튼이 눌러졌습니다!");
             }
             
