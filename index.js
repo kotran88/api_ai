@@ -197,16 +197,19 @@ app.get('/successWifi',function(req,res){
         console.log("this is kkkkkey"+snap.key);
         console.log("this is value"+snap.val().appId);
         appId=snap.val().appId;
+        var alarmFlag=snap.val().alarm;
         var refff = firebase.database().ref().child('clients').child(phoneKey).child("hub").child(device);
         //
         console.log("this is ref")
         console.log(reff);
         refff.once('value').then((snap)=>{
     
-            console.log(snap.val());
             title=snap.val().deviceName;
     
-            sendMessage(appId,snap.val().deviceName+" 의 버튼이 눌러졌습니다!(예약)");
+            if(alarmFlag=="on"){
+                sendMessage(appId,snap.val().deviceName+" 의 버튼이 눌러졌습니다!(예약)");
+            }
+            
             var ref = firebase.database().ref().child('clients').child(phoneKey).child("hub").child(device).child("Record");
 
             var messageRef= ref;
@@ -308,9 +311,7 @@ app.get('/success',function(req,res){
         //
         refff.once('value').then((snap)=>{
     
-            console.log(snap.val());
-            console.log("this is title : "+snap.val().deviceName)
-    
+            
             title=snap.val().deviceName;
             if(alarmFlag=="on"){
                 sendMessage(appId,snap.val().deviceName+" 의 버튼이 눌러졌습니다!");
