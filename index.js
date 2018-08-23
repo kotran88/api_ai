@@ -301,6 +301,8 @@ app.get('/success',function(req,res){
     reff.once('value').then((snap)=>{
         console.log("this is key"+snap.key);
         console.log("this is value"+snap.val().appId);
+        var alarmFlag=snap.val().alarm;
+        console.log("alarm flag : "+alarmFlag);
         appId=snap.val().appId;
         var refff = firebase.database().ref().child('clients').child(phoneKey).child("hub").child(device);
         //
@@ -310,7 +312,10 @@ app.get('/success',function(req,res){
             console.log("this is title : "+snap.val().deviceName)
     
             title=snap.val().deviceName;
-            sendMessage(appId,snap.val().deviceName+" 의 버튼이 눌러졌습니다!");
+            if(alarmFlag=="true"){
+                sendMessage(appId,snap.val().deviceName+" 의 버튼이 눌러졌습니다!");
+            }
+            
             var ref = firebase.database().ref().child('clients').child(phoneKey).child("hub").child(device).child("Record");
 
             var messageRef= ref;
@@ -1081,7 +1086,7 @@ function getFirebase(val){
      var results = [];
      querySnapshot.forEach(function(doc) {
         console.log("this is first doc"+val) //356356080859149
-        console.log(doc.key); //0CB2B77BB2BB
+        console.log(doc.key); //015EF
         for(let value in doc.val()){
             console.log("judging to send:"+doc.key);
             
