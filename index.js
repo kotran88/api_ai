@@ -1069,7 +1069,7 @@ function getFirebase(val){
     today.setHours(today.getHours()+9);
     
     var d = new Date();
-    var days = ["일요일","월요일","화요일","수요일","목요일","금요일","토요일"];
+    var days = ["일","월","화","수","목","금","토"];
     var day =  days[today.getDay()];
 
   
@@ -1095,23 +1095,43 @@ function getFirebase(val){
             var flag= doc.val()[value].flag;
             console.log("on or off : "+flag);
 
-            console.log("date : "+day+"/"+today.getHours()+"///"+today.getMinutes());
-            if(day==doc.val()[value].date&&today.getHours()==doc.val()[value].hour&&today.getMinutes()==doc.val()[value].minute){
-            console.log(flag+"sound alarm!!!!!!!!!!!!!!!"+doc.key);
+            console.log("day information : "+day);
+            console.log("day selected information : "+doc.val()[value].date);
+            console.log(typeof(doc.val()[value].date));
+            console.log(doc.val()[value].date.toString());
+            var dayString=doc.val()[value].date.toString();
+            console.log(dayString.length);
+            
+            var todayIsTheDay=false;
+            for(var i=0; i<dayString.length; i++){
+                console.log(dayString[i]);
 
-            if(flag=="on"){
-                client.publish('/ESP8266/ReservationPressed', doc.key, function() {
-                    console.log("MMMessage is Reconnecting");
-                    
-                });
-            }else if(flag=="off"){
-                client.publish('/ESP8266/ReservationPressedOff', doc.key, function() {
-                    console.log("MMMessage is Reconnecting");
-                    
-                });
-            }
-                
+                if(day==dayString[i]){
+
+                    todayIsTheDay=true;
                 }
+            }
+            console.log(todayIsTheDay);
+            console.log("date : "+day+"/"+today.getHours()+"///"+today.getMinutes());
+            if(todayIsTheDay){
+                if(today.getHours()==doc.val()[value].hour&&today.getMinutes()==doc.val()[value].minute){
+                    console.log(flag+"sound alarm!!!!!!!!!!!!!!!"+doc.key);
+        
+                    if(flag=="on"){
+                        client.publish('/ESP8266/ReservationPressed', doc.key, function() {
+                            console.log("MMMessage is Reconnecting");
+                            
+                        });
+                    }else if(flag=="off"){
+                        client.publish('/ESP8266/ReservationPressedOff', doc.key, function() {
+                            console.log("MMMessage is Reconnecting");
+                            
+                        });
+                    }
+                        
+                        }
+            }
+           
 
 
 

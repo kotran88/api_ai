@@ -23,15 +23,14 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
   console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
   console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
 
-  function welcome (agent) {
-      console.log("welcome!!!!");
-     
-   
-  }
+  
 
   function fallback (agent) {
+      console.log("came to fallback");
       //Default fall back 으로, 최초 실행시 여기로 온다. 
       
+      
+
     //   console.log("fallback")
     //   let conv = agent.conv(); // Get Actions on Google library conv instance
      
@@ -41,8 +40,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       
     // agent.add(`I didn't understand`);
     // agent.add(`I'm sorry, can you try again?`);
-    
-    
+   
     let conv = agent.conv(); // Get Actions on Google library conv instance
      
       
@@ -58,6 +56,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       var deviceflag=false;
       var v="";
       console.log("permanent value :"+pv);
+      console.log("google voice id is : "+conv.user.id);
        agent.add(`안녕하세요?`);
       return database.ref('clients/').once('value').then((snap)=>{
           console.log(snap.val());
@@ -71,6 +70,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 console.log(values);
                 console.log(val);
                 phoneKey=val;
+                
                 if(values[val].googlevoice==conv.user.id){
                     console.log("google voice id matched ");
                       console.log("key is  value issssssskkk : ");
@@ -104,7 +104,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                  
                 
             }else{
-                agent.add("처음 로그인하셨네요. 고객코드를 입력해주세요");
+                agent.add("처음 로그인하셨네요. 공유코드를 입력해주세요");
                 
                 
             }
@@ -118,48 +118,159 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     
   }
   function KeyValue(agent){
-      console.log("KKKKKkkkkkkkkkkkkkkkkkkkkkkkkkkkkeyValue")
-      
-      
+      console.log("KeyValue")
+      var flag=false;
+      var phoneKeyArray=[];
+      var phoneKey="";
+         
+      var val="";
      let conv = agent.conv(); // Get Actions on Google library conv instance
      
-    //  console.log(conv)
-    console.log("permanent value in : "+conv.body.queryResult.parameters.number)
-    pv=conv.body.queryResult.parameters.number;
-     console.log(conv.body.queryResult.parameters.number)
-     console.log("ggggget parameter well ")
-    
-     console.log("ggggget parameter well2 ")
-     console.log(conv.contexts)
-     console.log(conv.user);
-      console.log(conv.user.id);
-      return database.ref('clients/'+conv.body.queryResult.parameters.number).update({
-   
-    googlevoice:conv.user.id
-  }).then(()=>{
-        console.log("success");
+     //  console.log(conv)
+     console.log("permanent value in : "+conv.body.queryResult.parameters.number)
+     console.log("looooooque entras is : "+conv.body.queryResult);
+     console.log("entered value is ");
+     console.log(conv.body.queryResult.queryText);
+     pv=conv.body.queryResult.parameters.number;
+      console.log(conv.body.queryResult.parameters.number)
+      console.log("ggggget parameter well ")
+     
+      console.log("ggggget parameter well2 ")
+      console.log(conv.contexts)
+      console.log(conv.user);
+       console.log(conv.user.id);
+
        
-       return database.ref('clients/'+conv.body.queryResult.parameters.number+"/devices").once('value').then((snap)=>{
-            console.log(snap.val());
-            var values=snap.val();
-             agent.add("등록되었습니다!!!.");
-             for (let val in values) 
-            {
-               
-                console.log(val+"????"+values)
-                console.log(values[val].title)
-                agent.add(new Suggestion(values[val].title));
-               
-            }
+       return database.ref('clients/').once('value').then((snap)=>{
+        console.log(snap.val());
+        var values=snap.val();
+      
+      
+       
+        var va="";
+        for (let val in values) 
+          {
+              console.log("printing phoneKey and shareCode");
+             
+              console.log(values[val].shareCode);
+              console.log(conv.body.queryResult.parameters.number);
+              if(values[val].shareCode==conv.body.queryResult.queryText){
+                console.log("shareCode this to array : "+values[val].shareCode);
+                console.log("일치하는것 존재!!!!");
+                console.log("phoneKey is : "+val);
+                phoneKey=val;
+                va=val;
+                flag=true;
+              }
             
-           
-       })
+          }
+
+          console.log("flag is : "+flag);
+          if(flag){
+            //여기에서 제안을 통해서 조작가능한 디바이스를 보여준다.
+             
+             console.log("hub list : "+values[va].hub)
+             
+             return database.ref('clients/'+phoneKey).update({
+                    
+                    googlevoice:conv.user.id
+                }).then(()=>{
+                    
+                        console.log("success"+phoneKey);
+                    
+                           return database.ref('clients/'+phoneKey+"/hub").once('value').then((snap)=>{
+                            var values=snap.val();
+                           
+                            var count=0;
+                           
+                                for (let val in values) 
+                            {
+                            
+                                count++;
+                                console.log(val+"????"+values)
+                                if(values[val].deviceName==undefined||values[val].deviceName==null){
+                                    console.log("result is ?????");
+                                    console.log(values[val])
+                                    agent.add("등록된 기기가 없습니다. 앱에서 등록해주세요")
+                                }else{
+                                    console.log("count is : "+count);
+                                    if(count==1){
+                                        agent.add("현재 등록된 기기를 조작합니다.")
+                                    }
+                                    agent.add(new Suggestion(values[val].deviceName+"켜기"));
+                                    agent.add(new Suggestion(values[val].deviceName+"끄기"));
+                                }
+                                
+                            }
+                            
+
+                            
+                        
+                    })
+                        
+                        
+                    }).catch((err)=>{
+                        console.log("error"+err);
+                        agent.add("등록된 기기가 없습니다 앱에서 등록해주세요. ");
+                    });
+            
+              
+             
+         }else{
+             agent.add("올바른 공유코드를 입력해주세요.");
+             
+             
+         }
+        //   if(flag){
+    
+        //    console.log("gogogogogogogogogogogogogogogogogo"+phoneKey);
+    
+        //                      database.ref('clients/'+phoneKey).update({
+                    
+        //                         googlevoice:conv.user.id
+        //                     }).then(()=>{
+        //                             console.log("success");
+                                
+        //                              database.ref('clients/'+phoneKey+"/hub").once('value').then((snap)=>{
+        //                                 console.log(snap.val());
+        //                                 var values=snap.val();
+                                       
+        //                                 for (let val in values) 
+        //                                 {
+                                        
+        //                                     console.log(val+"????"+values)
+        //                                     console.log(values[val].title)
+        //                                     agent.add(new Suggestion(values[val].deviceName));
+                                        
+        //                                 }
+                                        
+                                    
+        //                         })
+                                    
+                                    
+        //                         }).catch((err)=>{
+        //                             console.log("error"+err);
+        //                             agent.add("실패하였습니다. ");
+        //                         });
+        //   }else{
+    
+        //     agent.add("잘못입력하였습니다. 코드를 확인해주세요.")
+        //   }
+
+
+
+
+        });
+    
         
-        
-    }).catch((err)=>{
-        console.log("error"+err);
-        agent.add("실패하였습니다. ");
-    });
+     
+      //입력한 공유코드가 실제로 디비에 존재하는지 검증. 
+      
+
+      
+
+
+     
   }
   function on(agent){
       console.log("come to on");
@@ -232,7 +343,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 
                 var count=0;
                 for(let vv in values[va].hub){
-                    console.log("printing information");
+                    
                     console.log(values[va].hub[vv].deviceName);
                     console.log(pressedDevice);
                     count++;
@@ -265,14 +376,16 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                         
                         console.log(name[1]);
                         console.log(pressedDevice.length);
-                        if(pressedDevice!="불"||pressedDevice.legnth!=0){
-                            agent.add(pressedDevice+"를 찾을을수없습니다.");
-                        }else{
-                            console.log(count+"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+vv)
-                                     rrequest("https://onandoff.herokuapp.com/pressedTest?hubId="+vv, (err, res, body) => {
-                                  if (err) { return console.log(err); }
-                                  console.log(body);
-                                });
+                        console.log(pressedDevice);
+                        console.log("printinginformation");
+                        console.log(pressedDevice.length===0);
+                        console.log("result shown");
+                        if(pressedDevice.legnth===0){
+                            console.log("is zero");
+                        }else if(pressedDevice.length!==0){
+                            console.log("is not zero find");
+                            console.log(pressedDevice.length);
+                            agent.add(pressedDevice+"를 찾을수없습니니다.");
                         }
                     }
                        deviceflag=true;
@@ -389,8 +502,23 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
                 });
                       
                     }else{
-                        if(pressedDevice!="불"){
-                            agent.add(pressedDevice+"를 찾을수없습니다.");
+                        
+                        console.log(pressedDevice.length);
+                        console.log(pressedDevice);
+                        console.log("printinginformation");
+                        console.log(pressedDevice.length===0);
+                        console.log("result shown");
+                        if(pressedDevice.legnth===0){
+                            console.log("is zero");
+                        }else if(pressedDevice.length!==0){
+                            console.log("is not zero find");
+                            console.log(pressedDevice==="불");
+                            console.log(pressedDevice!=="불");
+                            if(pressedDevice!=="불"){
+                                console.log(pressedDevice.length);
+                                agent.add(pressedDevice+"를 찾을수없습니니다.");
+                            }
+                            
                         }
                         
                     }
@@ -654,7 +782,7 @@ console.log(pv);
 
   // Run the proper function handler based on the matched Dialogflow intent name
   let intentMap = new Map();
-  intentMap.set('Default Welcome Intent', welcome);
+  intentMap.set('Default Welcome Intent', fallback);
   intentMap.set('Default Fallback Intent', fallback);
     intentMap.set('KeyValue', KeyValue);
     intentMap.set('device', device);
