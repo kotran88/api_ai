@@ -13,6 +13,7 @@
     "firebase": "^4.9.0",
     "google-assistant": "^0.2.2",
     "mqtt": "^2.15.1",
-    "public-ip": "^2.4.0"
+    "public-ip": "^2.4.0",
+    "ejs": "~1.0.0"
   }
 }

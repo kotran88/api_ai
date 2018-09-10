@@ -24,6 +24,13 @@ console.log("haha");
 
 var express=require('express');
 var app=express();
+
+
+app.set('views', './app/views');           
+app.set('view engine', 'ejs');           
+app.use(express.static('./images'));  
+
+
 var router = express.Router();
 var port = process.env.PORT || 13145
 
@@ -913,8 +920,9 @@ app.get('/',function(req,res){
     // setInterval(intervalFunc, 1500);
     
     
-	res.type('text/plain');
-    res.send('8888888');
+	
+    res.render('indexx', {title : 'First Title'});
+
     
 });
 app.get('/getTemperature',function(req,res){
